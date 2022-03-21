@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="hidden absolute md:flex md:flex-col text-left px-6 pt-3 w-64 h-full text-white"
+      class="hidden absolute md:flex md:flex-col text-left px-6 pt-3 w-64 h-full text-white nav-bar"
       style="background-color: #1e293b"
     >
       <div class="h-14 flex items-center justify-left mb-2 bg-w">
@@ -23,6 +23,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.nav-bar {
+  border-right: 1px solid black;
+}
 .menu {
   div {
     display: flex;

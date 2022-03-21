@@ -2,7 +2,7 @@
   <div id="app">
     <SideBar />
     <TopBar />
-    <router-view class="ml-64" />
+    <router-view class="md:ml-64" />
   </div>
 </template>
 
