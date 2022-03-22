@@ -22,7 +22,12 @@
           v-for="(item, index) in option"
           :key="index"
           class="hover:bg-slate-100 pl-7 pr-2 py-2 cursor-pointer text-slate-500"
-          @click="() => (defaultValue = item)"
+          @click="
+            () => {
+              defaultValue = item;
+              $emit('dropDownValue', item);
+            }
+          "
         >
           {{ item }}
         </div>

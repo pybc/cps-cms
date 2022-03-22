@@ -14,12 +14,13 @@
 <script>
 import { SearchIcon } from "@vue-hero-icons/outline";
 export default {
+  props: ["searchValue"],
   components: {
     SearchIcon,
   },
   data() {
     return {
-      value: "",
+      value: this.searchValue || "",
     };
   },
 };

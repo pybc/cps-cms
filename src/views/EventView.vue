@@ -5,16 +5,27 @@
       <div class="text-3xl font-bold py-8">Event</div>
 
       <div class="flex items-center">
-        <SearchBar @searchInput="receiveInputValue" class="mx-1" />
+        <div v-if="statusFilter || searchValue">
+          <button
+            class="flex bg-white border border-slate-200 mx-1 p-1 rounded"
+            @click="clear()"
+          >
+            Clear <XIcon class="text-red-500" />
+          </button>
+        </div>
+        <SearchBar
+          @searchInput="receiveInputValue"
+          :value="searchValue"
+          class="mx-1"
+          :key="searchKey"
+        />
+        {{ searchValue }}
         <DropDown
           class="mx-1"
-          value="Select your filter"
-          :option="[
-            `Last
-        12 Months`,
-            `Last 13 Months`,
-            `Last 14 Months`,
-          ]"
+          value="Select Status"
+          :option="[`opened`, `started`, `ended`]"
+          @dropDownValue="receiveDropdownValue"
+          :key="dropdownKey"
         />
         <div
           class="flex pr-4 pl-1 rounded items-center bg-primary cursor-pointer"
@@ -92,11 +103,13 @@
       <p class="text-slate-500">
         Showing event {{ maxRow * currentPage - maxRow }} to
         {{
-          maxRow * currentPage < eventList.length
+          maxRow * currentPage < eventFilter.length
             ? maxRow * currentPage
-            : eventList.length
+            : eventFilter.length
         }}
-        of {{ eventList.length }} results
+        of
+        {{ eventFilter.length }}
+        results
       </p>
       <div class="flex">
         <button
@@ -129,19 +142,30 @@ import {
   PlusIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
+  XIcon,
 } from "@vue-hero-icons/outline";
 export default {
   name: "EventView",
-  components: { SearchBar, DropDown, PlusIcon, ArrowLeftIcon, ArrowRightIcon },
+  components: {
+    SearchBar,
+    DropDown,
+    PlusIcon,
+    ArrowLeftIcon,
+    ArrowRightIcon,
+    XIcon,
+  },
   data() {
     return {
       searchValue: "",
       currentPage: 1,
       maxRow: 10,
+      statusFilter: "",
+      searchKey: 0,
+      dropdownKey: 0,
       eventList: [
         {
           _id: "6226f73eb93e1e192b983be1",
-          name: "Kick-off Startup by SU Entrepreneur Club",
+          name: "xxx",
           img: "https://scontent.fbkk5-8.fna.fbcdn.net/v/t39.30808-6/273981489_3183704231872870_4231241122640609487_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=FSLMtJodNbIAX_EttM3&tn=NCnuf_xRNxGWrVL5&_nc_ht=scontent.fbkk5-8.fna&oh=00_AT9Ob78HpBEsaRZLr3XUPGfw_5zGcXWx5jGiwxetATmjNQ&oe=623AF654",
           description:
             "แชร์ประสบการณ์จากรุ่นพี่สู่รุ่นน้อง โดยนักศึกษาผู้ประกอบการ",
@@ -581,7 +605,7 @@ export default {
         },
         {
           _id: "6226f73eb93e1e192b983be1",
-          name: "Kick-off Startup by SU Entrepreneur Club",
+          name: "xxxxxxxx",
           img: "https://scontent.fbkk5-8.fna.fbcdn.net/v/t39.30808-6/273981489_3183704231872870_4231241122640609487_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=FSLMtJodNbIAX_EttM3&tn=NCnuf_xRNxGWrVL5&_nc_ht=scontent.fbkk5-8.fna&oh=00_AT9Ob78HpBEsaRZLr3XUPGfw_5zGcXWx5jGiwxetATmjNQ&oe=623AF654",
           description:
             "แชร์ประสบการณ์จากรุ่นพี่สู่รุ่นน้อง โดยนักศึกษาผู้ประกอบการ",
@@ -639,11 +663,17 @@ export default {
         this.currentPage === 1
           ? 0
           : this.maxRow * this.currentPage - this.maxRow;
-      console.log("startIndex", startIndex);
       const lastIndex = this.maxRow + startIndex;
-      console.log("lastIndex", lastIndex);
-      const renderEventList = this.eventList.slice(startIndex, lastIndex);
+      const renderEventList = this.eventFilter.slice(startIndex, lastIndex);
       return renderEventList;
+    },
+    eventFilter() {
+      return this.eventList.filter((event) => {
+        return (
+          event.name.toLowerCase().includes(this.searchValue.toLowerCase()) &&
+          event.status.toLowerCase().includes(this.statusFilter.toLowerCase())
+        );
+      });
     },
     maxPage() {
       return Math.ceil(this.eventList.length / 10);
@@ -658,6 +688,18 @@ export default {
     },
     previousList() {
       this.currentPage > 1 ? this.currentPage-- : "";
+    },
+    receiveDropdownValue(value) {
+      this.statusFilter = value;
+    },
+    clear() {
+      this.statusFilter = "";
+      this.searchValue = "";
+      this.forceRerenderSearch();
+    },
+    forceRerenderSearch() {
+      this.dropdownKey += 1;
+      this.searchKey += 1;
     },
   },
 };
