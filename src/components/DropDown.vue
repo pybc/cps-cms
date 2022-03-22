@@ -2,7 +2,7 @@
   <div>
     <!-- DROPDOWN BUTTON -->
     <button
-      class="flex flex-row drop-shadow border border-slate-300 hover:border-slate-400 py-2 px-2 w-44 outline-none rounded text-sm bg-white"
+      class="flex flex-row drop-shadow border border-slate-300 hover:border-slate-400 py-2 px-2 w-44 outline-none focus:outline-none focus:border-emerald-500 transition-colors rounded text-sm"
       @click="isOpen = !isOpen"
       v-click-outside="() => (isOpen = false)"
     >
