@@ -6,7 +6,7 @@
       @click="isOpen = !isOpen"
       v-click-outside="() => (isOpen = false)"
     >
-      <div class="text-left mx-2 w-32 truncate text-slate-600">
+      <div class="text-left mx-2 w-32 truncate text-slate-600 capitalize">
         {{ defaultValue }}
       </div>
       <ChevronUpIcon v-if="isOpen" class="text-slate-400 p-1" />
@@ -16,12 +16,12 @@
     <!-- DISPLAY SELECT MENU -->
     <div v-if="isOpen && option">
       <div
-        class="absolute border border-slate-300 mt-1 outline-none rounded w-44 truncate text-sm bg-white"
+        class="absolute border border-slate-300 mt-1 outline-none rounded w-44 truncate text-sm bg-white z-50 hover:z-100"
       >
         <div
           v-for="(item, index) in option"
           :key="index"
-          class="hover:bg-slate-100 pl-7 pr-2 py-2 cursor-pointer text-slate-500"
+          class="hover:bg-slate-100 pl-7 pr-2 py-2 cursor-pointer text-slate-500 capitalize"
           @click="
             () => {
               defaultValue = item;

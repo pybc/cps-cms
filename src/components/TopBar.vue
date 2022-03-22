@@ -1,5 +1,5 @@
 <template>
-  <div id="top-bar" class="md:ml-64 py-4 bg-white">
+  <div id="top-bar" class="xl:ml-64 py-4 bg-white">
     <nav class="flex flex-row justify-end mr-5 text-slate-800 items-center">
       <div class="mx-2">
         <img
