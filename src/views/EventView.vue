@@ -28,12 +28,10 @@
           :key="dropdownKey"
         />
         <div
-          class="flex pr-4 pl-1 rounded items-center bg-primary cursor-pointer"
+          class="flex pr-4 pl-1 rounded items-center bg-primary cursor-pointer drop-shadow-md"
         >
           <PlusIcon class="text-slate-100 opacity-70 mx-1" />
-          <button class="text-white text-sm py-2 drop-shadow-sm">
-            Add Event
-          </button>
+          <button class="text-white text-sm py-2">Add Event</button>
         </div>
       </div>
     </div>
