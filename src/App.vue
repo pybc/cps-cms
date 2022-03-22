@@ -20,5 +20,7 @@ export default {
 <style>
 #app {
   font-family: Inter, Helvetica, Arial, sans-serif;
+  height: 100vh;
+  overflow: auto;
 }
 </style>

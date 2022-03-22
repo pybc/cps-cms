@@ -16,7 +16,7 @@
     <!-- DISPLAY SELECT MENU -->
     <div v-if="isOpen && option">
       <div
-        class="absolute border border-slate-300 mt-1 outline-none rounded w-44 truncate text-sm"
+        class="absolute border border-slate-300 mt-1 outline-none rounded w-44 truncate text-sm bg-white"
       >
         <div
           v-for="(item, index) in option"
