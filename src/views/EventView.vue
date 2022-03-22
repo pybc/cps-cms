@@ -7,7 +7,7 @@
       <div class="flex items-center">
         <div v-if="statusFilter || searchValue">
           <button
-            class="flex bg-white border border-slate-200 mx-1 p-1 rounded"
+            class="flex items-center bg-red-200 border border-red-200 mx-1 p-1 rounded"
             @click="clear()"
           >
             Clear <XIcon class="text-red-500" />
