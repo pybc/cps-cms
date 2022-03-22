@@ -2,7 +2,7 @@
   <div>
     <!-- DROPDOWN BUTTON -->
     <button
-      class="flex flex-row drop-shadow border border-slate-300 hover:border-slate-400 py-2 px-2 w-44 outline-none rounded text-sm"
+      class="flex flex-row drop-shadow border border-slate-300 hover:border-slate-400 py-2 px-2 w-44 outline-none rounded text-sm bg-white"
       @click="isOpen = !isOpen"
       v-click-outside="() => (isOpen = false)"
     >
@@ -16,7 +16,7 @@
     <!-- DISPLAY SELECT MENU -->
     <div v-if="isOpen && option">
       <div
-        class="absolute border border-slate-300 mt-1 outline-none rounded w-44 truncate text-sm"
+        class="absolute border border-slate-300 mt-1 outline-none rounded w-44 truncate text-sm bg-white"
       >
         <div
           v-for="(item, index) in option"
