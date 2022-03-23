@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="bg-slate-50">
     <SideBar />
     <TopBar />
     <router-view class="xl:ml-64" />

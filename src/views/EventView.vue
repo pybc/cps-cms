@@ -1,5 +1,7 @@
 <template>
-  <div class="h-full bg-slate-50 flex flex-col lg:grid grid-cols-4">
+  <div
+    class="lg:h-full lg:overflow-auto bg-slate-50 flex flex-col lg:grid grid-cols-4"
+  >
     <!-- CONTENT -->
     <section
       v-if="editMode === false"
@@ -533,6 +535,7 @@ export default {
     },
     receiveDropdownValue(value) {
       this.statusFilter = value;
+      this.currentPage = 1;
     },
     clear() {
       this.statusFilter = "";
