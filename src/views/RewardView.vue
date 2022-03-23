@@ -134,7 +134,7 @@
         </tbody>
       </table>
     </section>
-    <div class="my-5 flex justify-between">
+    <div class="my-5 flex justify-between items-center">
       <p class="text-slate-500">
         Showing reward {{ maxRow * currentPage - maxRow }} to
         {{
