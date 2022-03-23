@@ -73,8 +73,12 @@
               <td>
                 <span class="text-black">{{ event.name }}</span>
               </td>
-              <td class="font-medium">{{ event.eventStart }}</td>
-              <td class="font-medium">{{ event.eventEnd }}</td>
+              <td class="font-medium">
+                {{ moment(event.eventStart).format("DD MMM YYYY") }}
+              </td>
+              <td class="font-medium">
+                {{ moment(event.eventEnd).format("DD MMM YYYY") }}
+              </td>
               <td
                 :class="[
                   `font-medium`,
@@ -228,19 +232,19 @@
       <div class="flex justify-between my-2">
         <div class="text-sm text-slate-500 font-semibold">Register date</div>
         <div class="text-sm font-medium text-slate-700">
-          {{ activeEvent.registerEnd }}
+          {{ moment(activeEvent.registerEnd).format("DD MMM YYYY") }}
         </div>
       </div>
       <div class="flex justify-between my-2">
         <div class="text-sm text-slate-500 font-semibold">Start date</div>
         <div class="text-sm font-medium text-slate-700">
-          {{ activeEvent.eventStart }}
+          {{ moment(activeEvent.eventStart).format("DD MMM YYYY") }}
         </div>
       </div>
       <div class="flex justify-between my-2">
         <div class="text-sm text-slate-500 font-semibold">End date</div>
         <div class="text-sm font-medium text-slate-700">
-          {{ activeEvent.eventEnd }}
+          {{ moment(activeEvent.eventEnd).format("DD MMM YYYY") }}
         </div>
       </div>
 
@@ -265,6 +269,7 @@
 // @ is an alias to /src
 import SearchBar from "../components/SearchBar.vue";
 import DropDown from "../components/DropDown.vue";
+import moment from "moment";
 import {
   PlusIcon,
   ArrowLeftIcon,
@@ -315,7 +320,7 @@ export default {
       });
     },
     maxPage() {
-      return Math.ceil(this.eventList.length / 10);
+      return Math.ceil(this.eventFilter.length / this.maxRow);
     },
     eventList() {
       return this.$store.state.event.eventList;
@@ -352,6 +357,9 @@ export default {
     },
     selectEvent(event) {
       this.activeEvent = event;
+    },
+    moment() {
+      return moment();
     },
   },
 };
