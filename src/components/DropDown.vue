@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="relative">
     <!-- DROPDOWN BUTTON -->
     <button
-      class="flex flex-row items-center drop-shadow border border-slate-300 hover:border-slate-400 py-2 px-2 w-44 outline-none focus:outline-none focus:border-emerald-500 transition-colors rounded text-sm"
+      class="flex flex-row items-center drop-shadow border bg-white border-slate-300 hover:border-slate-400 py-2 px-2 w-44 outline-none focus:outline-none focus:border-emerald-500 transition-colors rounded text-sm"
       @click="isOpen = !isOpen"
       v-click-outside="() => (isOpen = false)"
     >
@@ -14,9 +14,9 @@
     </button>
 
     <!-- DISPLAY SELECT MENU -->
-    <div v-if="isOpen && option">
+    <div v-if="isOpen && option" class="absolute z-50 hover:z-100">
       <div
-        class="absolute border border-slate-300 mt-1 outline-none rounded w-44 truncate text-sm bg-white z-50 hover:z-100"
+        class="border border-slate-300 mt-1 outline-none rounded w-44 truncate text-sm bg-white"
       >
         <div
           v-for="(item, index) in option"
