@@ -29,8 +29,24 @@ const mutations = {
 };
 const actions = {
   async fetchEventList({ commit }) {
-    const eventList = await axios.get(`${process.env.VUE_APP_API_URL}/event`);
-    commit("setEventList", eventList.data);
+    try {
+      const eventList = await axios.get(`${process.env.VUE_APP_API_URL}/event`);
+      commit("setEventList", eventList.data);
+    } catch (error) {
+      console.log("[VueX] fetchEventList error ==> ", error);
+    }
+  },
+  async sendEventEditedToDatabase({ commit }, eventEdited) {
+    try {
+      const res = await axios.patch(
+        `${process.env.VUE_APP_API_URL}/event/update`,
+        eventEdited
+      );
+      commit("setEventEdited", eventEdited);
+      console.log("res", res);
+    } catch (error) {
+      console.log("[VueX] sendEventEditedToDatabase error ==> ", error);
+    }
   },
   saveEventEdited({ commit }, eventEdited) {
     commit("setEventEdited", eventEdited);
