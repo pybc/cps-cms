@@ -1,7 +1,7 @@
 <template>
   <div>
     <section>
-      <section class="w-4/6 mx-auto">
+      <section class="w-full md:w-4/6 mx-auto">
         <button
           @click="back()"
           class="flex text-center text-slate-600 font-semibold border border-slate-200 px-2 py-1 my-5 bg-white hover:bg-slate-300 rounded"
@@ -58,7 +58,7 @@
         </div>
         <div>
           <div class="text-sm text-slate-500 font-semibold">Tags</div>
-          <div class="flex">
+          <div class="flex w-full overflow-x-auto tags">
             <div
               v-for="(tag, index) in editTagsList"
               :key="index"
@@ -66,7 +66,7 @@
             >
               <button
                 :class="[
-                  `flex p-2  text-white  rounded items-center capitalize`,
+                  `flex p-2  text-white  rounded items-center capitalize `,
                   tag.status ? `bg-slate-800` : `bg-slate-400`,
                 ]"
                 @click="tag.status = !tag.status"
@@ -136,7 +136,15 @@
             />
           </div>
         </div>
-
+        <div class="text-sm text-slate-500 font-semibold">
+          <span>Register date</span>
+          <DateRange
+            :startDate="eventItem.registerStart"
+            :endDate="eventItem.registerEnd"
+            class="mt-2"
+            @onDateRange="onDateRangeRegister($event)"
+          />
+        </div>
         <div class="text-sm text-slate-500 font-semibold">
           <span>Event date</span>
 
@@ -144,16 +152,10 @@
             :startDate="eventItem.eventStart"
             :endDate="eventItem.eventEnd"
             class="mt-2"
+            @onDateRange="onDateRangeEvent($event)"
           />
         </div>
-        <div class="text-sm text-slate-500 font-semibold">
-          <span>Register date</span>
-          <DateRange
-            :startDate="eventItem.registerStart"
-            :endDate="eventItem.registerEnd"
-            class="mt-2"
-          />
-        </div>
+
         <div class="flex justify-center my-5">
           <button
             class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-red-200 p-2 hover:text-red-500 hover:border-red-500 mx-1"
@@ -169,6 +171,7 @@
             Reset Value
           </button>
           <button
+            @click="saveEvent()"
             class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-green-200 p-2 hover:text-emerald-500 hover:border-emerald-500 mx-1"
           >
             <CheckIcon class="p-1" />
@@ -189,7 +192,6 @@ import {
   CheckIcon,
   RefreshIcon,
 } from "@vue-hero-icons/outline";
-import moment from "moment";
 export default {
   components: {
     TrashIcon,
@@ -205,6 +207,14 @@ export default {
       countEditKey: 0,
       keyDropdown: "DDE" + 0,
       keyImgInput: "I" + 0,
+      dateRangeRegister: {
+        start: "",
+        end: "",
+      },
+      dateRangeEvent: {
+        start: "",
+        end: "",
+      },
       editBase64String: "",
       editTagsList: [
         {
@@ -275,23 +285,60 @@ export default {
     back() {
       this.$store.dispatch("event/closeEditMode");
     },
-    dateFormat(unixDate) {
-      return moment.unix(unixDate).format("DD MMM YYYY");
-    },
     imgToBase64() {
       const file = document.getElementById(`editImgEvent`)["files"][0];
-
       const reader = new FileReader();
-
       reader.onload = () => {
-        this.editBase64String = reader.result;
-
-        console.log("this.editBase64String", this.editBase64String);
+        this.eventItem.img = reader.result;
       };
       reader.readAsDataURL(file);
+    },
+    onDateRangeRegister(date) {
+      this.dateRangeRegister.start = date.start.toISOString();
+      this.dateRangeRegister.end = date.end.toISOString();
+
+      // console.log(
+      //   "moment  dateRangeRegister",
+      //   moment(this.dateRangeRegister.start).format("DD MMM YYYY HH:mm:ss")
+      // );
+    },
+    onDateRangeEvent(date) {
+      this.dateRangeEvent.start = date.start.toISOString();
+      this.dateRangeEvent.end = date.end.toISOString();
+    },
+    async saveEvent() {
+      this.eventItem.tags = [];
+
+      this.eventItem.registerStart = this.dateRangeRegister.start;
+      this.eventItem.registerEnd = this.dateRangeRegister.end;
+      this.eventItem.eventStart = this.dateRangeEvent.start;
+      this.eventItem.eventEnd = this.dateRangeEvent.end;
+
+      this.editTagsList.forEach((editTag) => {
+        if (editTag.status) {
+          this.eventItem.tags.push(editTag.name.toLowerCase());
+        }
+      });
+
+      console.log("eventItem", this.eventItem);
+      await this.$store.dispatch(
+        "event/sendEventEditedToDatabase",
+        this.eventItem
+      );
     },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+/* Hide scrollbar for Chrome, Safari and Opera */
+.tags::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.tags {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+</style>
