@@ -1,7 +1,14 @@
 <template>
   <form class="rounded" @submit.prevent>
     <div class="mb-4">
-      <v-date-picker v-model="range" mode="dateTime" :masks="masks" is-range>
+      <v-date-picker
+        v-model="range"
+        mode="dateTime"
+        :is24hr="true"
+        :masks="masks"
+        :min-date="new Date()"
+        is-range
+      >
         <template v-slot="{ inputValue, inputEvents, isDragging }">
           <div class="flex flex-col sm:flex-row justify-start items-center">
             <div class="relative flex-grow">
@@ -69,31 +76,26 @@
 </template>
 
 <script>
-import moment from "moment";
 export default {
   props: ["startDate", "endDate"],
   data() {
     return {
       date: "",
       range: {
-        start: new Date(this.startDate * 1000) || new Date(),
-        end: new Date(this.endDate * 1000) || new Date(),
+        start: this.startDate || new Date(),
+        end: this.endDate || new Date(),
       },
       masks: {
         input: "DD-MM-YYYY",
       },
     };
   },
-
-  methods: {
-    pickDate() {
-      var dateControl = document.querySelector('input[type="date"]');
-
-      console.log(dateControl.value); // prints "2017-06-01"
-      console.log(dateControl.valueAsNumber); // prints
-      this.date = moment(dateControl.value, "YYYY-MM-DD").format("DD MMM YYYY");
-
-      console.log("this.date", this.date);
+  watch: {
+    range: {
+      handler: function () {
+        this.$emit("onDateRange", this.range);
+      },
+      deep: true,
     },
   },
 };

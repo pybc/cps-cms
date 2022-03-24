@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import event from "../store/event";
-import reward from "../store/reward";
+import event from "./modules/event";
+import reward from "./modules/reward";
 
 Vue.use(Vuex);
 
