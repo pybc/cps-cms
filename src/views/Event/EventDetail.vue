@@ -131,8 +131,8 @@ export default {
       this.$store.dispatch("event/openEditMode");
     },
 
-    dateFormat(unixDate) {
-      return moment.unix(unixDate).format("DD MMM YYYY");
+    dateFormat(date) {
+      return moment(date).format("DD MMM YYYY");
     },
   },
 };
