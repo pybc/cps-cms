@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import EventView from "../views/EventView.vue";
+import EventView from "../views/Event/EventView.vue";
 import RewardView from "../views/RewardView.vue";
 import AchievementView from "../views/AchievementView.vue";
 
