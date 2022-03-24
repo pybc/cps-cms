@@ -309,10 +309,17 @@ export default {
     async saveEvent() {
       this.eventItem.tags = [];
 
-      this.eventItem.registerStart = this.dateRangeRegister.start;
-      this.eventItem.registerEnd = this.dateRangeRegister.end;
-      this.eventItem.eventStart = this.dateRangeEvent.start;
-      this.eventItem.eventEnd = this.dateRangeEvent.end;
+      if (
+        this.dateRangeRegister.start &&
+        this.dateRangeRegister.end &&
+        this.dateRangeEvent.start &&
+        this.dateRangeEvent.end
+      ) {
+        this.eventItem.registerStart = this.dateRangeRegister.start;
+        this.eventItem.registerEnd = this.dateRangeRegister.end;
+        this.eventItem.eventStart = this.dateRangeEvent.start;
+        this.eventItem.eventEnd = this.dateRangeEvent.end;
+      }
 
       this.editTagsList.forEach((editTag) => {
         if (editTag.status) {
