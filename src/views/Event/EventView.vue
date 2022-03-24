@@ -1,13 +1,8 @@
 <template>
-  <div
-    class="h-auto overflow-auto bg-slate-50 flex flex-col lg:grid grid-cols-4"
-  >
+  <div class="h-auto bg-slate-50 flex flex-col lg:grid grid-cols-4">
     <section
       v-if="editMode === false"
-      :class="[
-        `h-full overflow-hidden px-5`,
-        eventSelected ? `col-span-3` : `col-span-4`,
-      ]"
+      :class="[`  px-5`, eventSelected ? `col-span-3` : `col-span-4`]"
     >
       <!-- MENU -->
       <section class="flex flex-col lg:flex-row md:justify-between">
@@ -191,7 +186,7 @@ export default {
     return {
       searchValue: "",
       currentPage: 1,
-      maxRow: 11,
+      maxRow: 10,
       statusFilter: "",
       countKey: 0,
       searchKey: "s" + 0,
@@ -231,7 +226,6 @@ export default {
   methods: {
     async fetchEventList() {
       await this.$store.dispatch("event/fetchEventList");
-      console.log("eventList computed", this.eventList);
     },
     receiveInputValue(searchValue) {
       this.searchValue = searchValue;
@@ -260,8 +254,8 @@ export default {
     selectEvent(event) {
       this.eventSelected = event;
     },
-    dateFormat(unixDate) {
-      return moment.unix(unixDate).format("DD MMM YYYY");
+    dateFormat(date) {
+      return moment(date).format("DD MMM YYYY");
     },
   },
 };
