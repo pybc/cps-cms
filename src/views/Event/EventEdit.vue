@@ -1,6 +1,27 @@
 <template>
   <div>
     <section>
+      <!-- ALERT -->
+      <AlertWarning
+        :key="keyAlertWarning"
+        topic="Edit event is not complete !!"
+        text="Please check in on
+        some of those fields below."
+        :display="!isFormValidate"
+      />
+      <AlertDanger
+        :key="keyAlertDanger"
+        topic="Edit event is not complete !!"
+        text="Please Try again later."
+        :display="!isSaveSuccess && isSubmit"
+      />
+      <AlertSuccess
+        :key="keyAlertSuccess"
+        topic="Edit event is complete !!"
+        text="Data was saved successfully."
+        :display="isSaveSuccess"
+      />
+
       <section class="w-full md:w-4/6 mx-auto">
         <button
           @click="back()"
@@ -18,7 +39,7 @@
           alt=""
         />
         <div class="flex">
-          <div class="mb-3 w-96">
+          <div class="mb-8 w-96 relative">
             <div
               for="editImgEvent"
               class="text-sm text-slate-500 font-semibold my-2"
@@ -33,10 +54,16 @@
               @change="imgToBase64(`editImgEvent`)"
               :key="keyImgInput"
             />
+            <p
+              v-if="!validation.img"
+              class="mt-1 text-sm text-red-500 absolute"
+            >
+              Please select your poster event
+            </p>
           </div>
         </div>
 
-        <div>
+        <div class="relative mb-8">
           <div class="text-sm text-slate-500 font-semibold">Event Name</div>
           <div class="text-sm text-slate-600 break-words my-2">
             <input
@@ -45,18 +72,27 @@
               class="border border-slate-200 p-2 w-full focus:outline-emerald-500"
             />
           </div>
+          <p v-if="!validation.name" class="mb-1 text-sm text-red-500 absolute">
+            Please input event name
+          </p>
         </div>
-        <div>
+        <div class="mb-6 relative">
           <div class="text-sm text-slate-500 font-semibold">Description</div>
-          <div class="text-sm text-slate-600 break-words my-2">
+          <div class="text-sm text-slate-600 break-words mt-2">
             <textarea
               type="text"
               v-model="eventItem.description"
               class="border border-slate-200 p-2 w-full focus:outline-emerald-500"
             />
           </div>
+          <p
+            v-if="!validation.description"
+            class="mb-1 text-sm text-red-500 absolute"
+          >
+            Please input description
+          </p>
         </div>
-        <div>
+        <div class="relative mb-6">
           <div class="text-sm text-slate-500 font-semibold">Tags</div>
           <div class="flex w-full overflow-x-auto tags">
             <div
@@ -66,7 +102,7 @@
             >
               <button
                 :class="[
-                  `flex p-2  text-white  rounded items-center capitalize `,
+                  `flex p-2 md:px-6  text-white  rounded items-center capitalize `,
                   tag.status ? `bg-slate-800` : `bg-slate-400`,
                 ]"
                 @click="tag.status = !tag.status"
@@ -75,88 +111,150 @@
               </button>
             </div>
           </div>
+          <p v-if="!validation.tags" class="mb-1 text-sm text-red-500 absolute">
+            Please input tags
+          </p>
         </div>
-        <div>
+        <div class="relative mb-6">
           <div class="text-sm text-slate-500 font-semibold mb-2">Location</div>
           <textarea
             type="text"
             v-model="eventItem.location"
             class="border border-slate-200 p-2 w-full focus:outline-emerald-500"
           />
+          <p
+            v-if="!validation.location"
+            class="mb-1 text-sm text-red-500 absolute"
+          >
+            Please input location
+          </p>
         </div>
 
-        <div class="flex justify-between items-center mb-2">
-          <div class="text-sm text-slate-500 font-semibold">Status</div>
+        <div class="relative mb-8">
+          <div class="flex justify-between items-center">
+            <div class="text-sm text-slate-500 font-semibold">Status</div>
 
-          <DropDown
-            class="my-2 md:mx-1"
-            :value="eventItem.status"
-            :option="[`opened`, `started`, `ended`]"
-            @dropDownValue="receiveDropdownEditValue"
-            :key="keyDropdown"
-          />
-        </div>
-
-        <div class="flex justify-between items-center mb-2">
-          <div class="flex items-center">
-            <span class="text-sm text-slate-500 font-semibold">Point</span>
-            <input
-              type="text"
-              v-model="eventItem.point"
-              class="text-sm text-slate-500 border border-slate-200 p-2 mx-2 w-full focus:outline-emerald-500"
+            <DropDown
+              class="my-2 md:mx-1"
+              :value="eventItem.status"
+              :option="[`opened`, `started`, `ended`]"
+              @dropDownValue="receiveDropdownEditValue"
+              :key="keyDropdown"
             />
           </div>
-          <div class="flex items-center">
-            <span class="text-sm text-slate-500 font-semibold">Member</span>
-            <div
-              :class="[
-                `text-sm  font-medium flex items-center`,
-                eventItem.members.length === eventItem.maxMember
-                  ? `text-red-600`
-                  : `text-emerald-600`,
-              ]"
-            >
-              <div class="flex mx-1">
-                <span class="mx-1">{{ eventItem.members.length }}</span> /
-              </div>
-
+          <p
+            v-if="!validation.status"
+            class="mb-1 text-sm text-red-500 absolute"
+          >
+            Please input status
+          </p>
+        </div>
+        <div class="flex justify-between items-center mb-8">
+          <div class="relative">
+            <div class="flex items-center">
+              <span class="text-sm text-slate-500 font-semibold">Point</span>
               <input
                 type="text"
-                v-model="eventItem.maxMember"
-                class="border border-slate-200 p-2 w-full focus:outline-emerald-500"
+                v-model="eventItem.point"
+                class="text-sm text-slate-500 border border-slate-200 p-2 mx-2 w-full focus:outline-emerald-500"
               />
             </div>
+            <p
+              v-if="!validation.point"
+              class="mt-1 text-sm text-red-500 absolute"
+            >
+              Please input point
+            </p>
           </div>
-          <div class="flex justify-between items-center">
-            <div class="text-sm text-slate-500 font-semibold mx-1">Section</div>
-            <input
-              type="text"
-              v-model="eventItem.section"
-              class="text-sm text-slate-500 border border-slate-200 p-2 w-full focus:outline-emerald-500"
+
+          <div class="relative">
+            <div class="flex items-center">
+              <span class="text-sm text-slate-500 font-semibold">Member</span>
+              <div
+                :class="[
+                  `text-sm  font-medium flex items-center`,
+                  eventItem.members.length === eventItem.maxMember
+                    ? `text-red-600`
+                    : `text-emerald-600`,
+                ]"
+              >
+                <div class="flex mx-1">
+                  <span class="mx-1">{{ eventItem.members.length }}</span> /
+                </div>
+
+                <input
+                  type="text"
+                  v-model="eventItem.maxMember"
+                  class="border border-slate-200 p-2 w-full focus:outline-emerald-500"
+                />
+              </div>
+            </div>
+            <p
+              v-if="!validation.maxMember"
+              class="mt-1 text-sm text-red-500 absolute"
+            >
+              Please input max member
+            </p>
+          </div>
+
+          <div class="relative">
+            <div class="flex justify-between items-center">
+              <div class="text-sm text-slate-500 font-semibold mx-1">
+                Section
+              </div>
+              <input
+                type="text"
+                v-model="eventItem.section"
+                class="text-sm text-slate-500 border border-slate-200 p-2 w-full focus:outline-emerald-500"
+              />
+            </div>
+            <p
+              v-if="!validation.section"
+              class="mt-1 text-sm text-red-500 absolute"
+            >
+              Please input section
+            </p>
+          </div>
+        </div>
+
+        <div class="relative mb-8">
+          <div class="text-sm text-slate-500 font-semibold">
+            <span>Register date</span>
+            <DateRange
+              :startDate="eventItem.registerStart"
+              :endDate="eventItem.registerEnd"
+              class="mt-2"
+              @onDateRange="onDateRangeRegister($event)"
             />
           </div>
-        </div>
-        <div class="text-sm text-slate-500 font-semibold">
-          <span>Register date</span>
-          <DateRange
-            :startDate="eventItem.registerStart"
-            :endDate="eventItem.registerEnd"
-            class="mt-2"
-            @onDateRange="onDateRangeRegister($event)"
-          />
-        </div>
-        <div class="text-sm text-slate-500 font-semibold">
-          <span>Event date</span>
-
-          <DateRange
-            :startDate="eventItem.eventStart"
-            :endDate="eventItem.eventEnd"
-            class="mt-2"
-            @onDateRange="onDateRangeEvent($event)"
-          />
+          <p
+            v-if="!validation.registerStart && !validation.registerEnd"
+            class="text-sm text-red-500 absolute top-16"
+          >
+            Please select date register
+          </p>
         </div>
 
-        <div class="flex justify-center my-5">
+        <div class="relative mb-8">
+          <div class="text-sm text-slate-500 font-semibold">
+            <span>Event date</span>
+
+            <DateRange
+              :startDate="eventItem.eventStart"
+              :endDate="eventItem.eventEnd"
+              class="mt-2"
+              @onDateRange="onDateRangeEvent($event)"
+            />
+          </div>
+          <p
+            v-if="!validation.eventStart && !validation.eventEnd"
+            class="mt-1 text-sm text-red-500 absolute top-16"
+          >
+            Please select date event
+          </p>
+        </div>
+
+        <div class="flex justify-center mt-20 mb-20">
           <button
             class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-red-200 p-2 hover:text-red-500 hover:border-red-500 mx-1"
           >
@@ -186,12 +284,16 @@
 <script>
 import DateRange from "../../components/DateRange.vue";
 import DropDown from "../../components/DropDown.vue";
+import AlertWarning from "@/components/AlertWarning.vue";
+import AlertSuccess from "@/components/AlertSuccess.vue";
+import AlertDanger from "../../components/AlertDanger.vue";
 import {
   TrashIcon,
   ChevronLeftIcon,
   CheckIcon,
   RefreshIcon,
 } from "@vue-hero-icons/outline";
+
 export default {
   components: {
     TrashIcon,
@@ -200,11 +302,20 @@ export default {
     RefreshIcon,
     DateRange,
     DropDown,
+    AlertWarning,
+    AlertSuccess,
+    AlertDanger,
   },
   data() {
     return {
+      // REGEX_TEXT: /^[a-zA-Zก-๏\s]+$/,
+      REGEX_NUMBER: /^[0-9]*$/,
       eventItem: "",
       countEditKey: 0,
+      countAlertKey: 0,
+      keyAlertWarning: "AW" + 0,
+      keyAlertSuccess: "AS" + 0,
+      keyAlertDanger: "AD" + 0,
       keyDropdown: "DDE" + 0,
       keyImgInput: "I" + 0,
       dateRangeRegister: {
@@ -242,6 +353,24 @@ export default {
           status: false,
         },
       ],
+      validation: {
+        img: false,
+        name: false,
+        description: false,
+        tags: false,
+        location: false,
+        status: false,
+        point: false,
+        maxMember: false,
+        section: false,
+        registerStart: false,
+        registerEnd: false,
+        eventStart: false,
+        eventEnd: false,
+      },
+      isFormValidate: false,
+      isSaveSuccess: false,
+      isSubmit: false,
     };
   },
 
@@ -252,6 +381,7 @@ export default {
   },
   mounted() {
     this.eventItem = { ...this.eventEdited };
+    this.checkValidation(this.eventItem);
     this.eventItem.tags.forEach((tag) => {
       this.editTagsList.forEach((editTag) => {
         if (tag.toLowerCase() === editTag.name.toLowerCase()) {
@@ -296,11 +426,6 @@ export default {
     onDateRangeRegister(date) {
       this.dateRangeRegister.start = date.start.toISOString();
       this.dateRangeRegister.end = date.end.toISOString();
-
-      // console.log(
-      //   "moment  dateRangeRegister",
-      //   moment(this.dateRangeRegister.start).format("DD MMM YYYY HH:mm:ss")
-      // );
     },
     onDateRangeEvent(date) {
       this.dateRangeEvent.start = date.start.toISOString();
@@ -326,12 +451,77 @@ export default {
           this.eventItem.tags.push(editTag.name.toLowerCase());
         }
       });
+      if (this.editBase64String) {
+        this.eventItem.img = this.editBase64String;
+      }
+      this.checkValidation(this.eventItem);
+      if (this.isFormValidate) {
+        this.isSaveSuccess = await this.$store.dispatch(
+          "event/sendEventEditedToDatabase",
+          this.eventItem
+        );
+        this.isSubmit = true;
 
-      console.log("eventItem", this.eventItem);
-      await this.$store.dispatch(
-        "event/sendEventEditedToDatabase",
-        this.eventItem
-      );
+        // ALERT FAILED
+        if (this.isSaveSuccess && this.isSubmit) {
+          this.keyAlertDanger = this.keyAlertDanger + this.countAlertKey;
+        } else if (this.isSaveSuccess) {
+          // ALERT SUCCESS
+          this.keyAlertSuccess = this.keyAlertSuccess + this.countAlertKey;
+        }
+      } else {
+        // ALERT WARNING
+        this.isSaveSuccess = false;
+        this.isSubmit = false;
+        this.keyAlertWarning = this.keyAlertWarning + this.countAlertKey;
+        this.countAlertKey++;
+      }
+    },
+    checkValidation(event) {
+      // CHECK EMPTY IMG
+      this.validation.img = event.img ? true : false;
+      // CHECK EMPTY EVENT NAME
+      this.validation.name = event.name ? true : false;
+      // CHECK EMPTY DESCRIPTION
+      this.validation.description = event.description ? true : false;
+      //  CHECK EMPTY TAGS ARRAY
+      this.validation.tags = event.tags.length ? true : false;
+      // CHECK EMPTY LOCATION
+      this.validation.location = event.location ? true : false;
+      // CHECK EMPTY STATUS
+      this.validation.status = event.status ? true : false;
+      // VALIDATE POINT
+      this.validation.point =
+        event.point && this.REGEX_NUMBER.test(event.point);
+      // VALIDATE MAX_MEMBER
+      this.validation.maxMember =
+        event.maxMember && this.REGEX_NUMBER.test(event.maxMember);
+      // VALIDATE SECTION
+      this.validation.section =
+        event.section && this.REGEX_NUMBER.test(event.section);
+      //  CHECK EMPTY REGISTER_START
+      this.validation.registerStart = event.registerStart ? true : false;
+      //  CHECK EMPTY REGISTER_END
+      this.validation.registerEnd = event.registerEnd ? true : false;
+      //  CHECK EMPTY EVENT_START
+      this.validation.eventStart = event.eventStart ? true : false;
+      //  CHECK EMPTY EVENT_END
+      this.validation.eventEnd = event.eventEnd ? true : false;
+
+      this.isFormValidate =
+        this.validation.img &&
+        this.validation.name &&
+        this.validation.description &&
+        this.validation.tags &&
+        this.validation.location &&
+        this.validation.status &&
+        this.validation.point &&
+        this.validation.maxMember &&
+        this.validation.section &&
+        this.validation.registerStart &&
+        this.validation.registerEnd &&
+        this.validation.eventStart &&
+        this.validation.eventEnd;
     },
   },
 };
