@@ -43,9 +43,10 @@ const actions = {
         eventEdited
       );
       commit("setEventEdited", eventEdited);
-      console.log("res", res);
+      return res.status === 200 ? true : false;
     } catch (error) {
       console.log("[VueX] sendEventEditedToDatabase error ==> ", error);
+      return false;
     }
   },
   saveEventEdited({ commit }, eventEdited) {
