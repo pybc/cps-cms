@@ -1,6 +1,18 @@
 <template>
   <div>
     <section>
+      <AlertDanger
+        :key="keyAlertDanger"
+        topic="Remove reward is not complete !!"
+        text="Please Try again later."
+        :display="!deleteStatus && deleteClicked"
+      />
+      <AlertSuccess
+        :key="keyAlertSuccess"
+        topic="Remove reward is complete !!"
+        text="Data was cleared successfully."
+        :display="deleteStatus && deleteClicked"
+      />
       <section class="overflow-y-auto">
         <div
           class="flex justify-between items-center text-center text-slate-600 font-semibold my-5"
@@ -69,7 +81,7 @@
           class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-red-200 p-2 hover:text-red-500 hover:border-red-500 mx-1"
           @click="
             () => {
-              deleteReward(rewardSelected._id), (this.deleteClicked = true);
+              deleteReward(rewardSelected._id);
             }
           "
         >
@@ -83,23 +95,52 @@
 
 <script>
 import { TrashIcon, XIcon } from "@vue-hero-icons/outline";
-
+import { deleteReward } from "@/api/reward.service.js";
+import AlertSuccess from "@/components/AlertSuccess.vue";
+import AlertDanger from "../../components/AlertDanger.vue";
 export default {
   props: ["rewardSelected"],
   components: {
     TrashIcon,
     XIcon,
+    AlertSuccess,
+    AlertDanger,
   },
   data() {
     return {
       deleteClicked: false,
+      deleteStatus: null,
+      keyAlertSuccess: "AS" + 0,
+      keyAlertDanger: "AD" + 0,
+      index: 1,
     };
   },
   methods: {
     async deleteReward(rewardId) {
-      await this.$store.dispatch("reward/deleteReward", rewardId);
-      this.$emit("closeWindowDetail", false);
-      await this.$store.dispatch("reward/fetchRewardList");
+      console.log("deleteReward method");
+      const response = await deleteReward(rewardId);
+      console.log("Response deleteReward : ", response.status);
+
+      if (response.status === 200) {
+        console.log("Status 200");
+        this.keyAlertSuccess = `AS${this.index}`;
+        this.index++;
+        console.log("Index : ", this.index);
+        this.$emit("closeWindowDetail", false);
+        await this.$store.dispatch("reward/fetchRewardList");
+      } else {
+        console.log("Status !== 200");
+        this.keyAlertDanger = `AD${this.index}`;
+        this.index++;
+        console.log("Index : ", this.index);
+        this.deleteClicked = false;
+      }
+      response.status === 200
+        ? (this.deleteStatus = true)
+        : (this.deleteStatus = false);
+      this.deleteClicked = true;
+      console.log("deleteClicked : ", this.deleteClicked);
+      console.log("deleteStatus : ", this.deleteStatus);
     },
   },
 };
