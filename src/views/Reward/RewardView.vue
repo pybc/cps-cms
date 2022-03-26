@@ -33,6 +33,7 @@
           />
 
           <button
+            @click="$router.push(`/reward/create`)"
             class="flex pr-4 pl-1 my-2 rounded items-center bg-primary cursor-pointer text-white text-sm p-2 drop-shadow-sm"
           >
             <PlusIcon class="text-slate-100 opacity-70 mx-1" />
