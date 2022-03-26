@@ -8,7 +8,7 @@
           Reward Summary
           <button
             @click="$emit('closeWindowDetail', false)"
-            class="flex items-center rounded-full drop-shadow-sm bg-white p-2 hover:bg-slate-200 mx-1"
+            class="flex items-center rounded-full drop-shadow-md bg-white p-2 hover:bg-slate-200 mx-1"
           >
             <XIcon class="text-red-400" />
           </button>
@@ -46,14 +46,19 @@
         </div>
         <div class="flex justify-between my-2">
           <div class="text-sm text-slate-500 font-semibold">Point</div>
-          <div class="text-sm text-emerald-600 break-words my-2">
+          <div class="font-medium text-sm text-emerald-600 break-words my-2">
             {{ rewardSelected.point }}
           </div>
         </div>
 
         <div class="flex justify-between my-2">
           <div class="text-sm text-slate-500 font-semibold">Total Reward</div>
-          <div class="text-sm text-emerald-600 break-words my-2">
+          <div
+            :class="[
+              rewardSelected.totalItem ? `text-emerald-600` : `text-red-600`,
+              `font-medium text-sm break-words my-2`,
+            ]"
+          >
             {{ rewardSelected.totalItem }}
           </div>
         </div>
@@ -61,7 +66,7 @@
       <div class="flex justify-center my-2">
         <button
           class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-red-200 p-2 hover:text-red-500 hover:border-red-500 mx-1"
-          @click="() => deleteReward(activeReward._id)"
+          @click="() => deleteReward(rewardSelected._id)"
         >
           <TrashIcon class="p-1" />
           Delete Reward
@@ -73,7 +78,6 @@
 
 <script>
 import { TrashIcon, XIcon } from "@vue-hero-icons/outline";
-import moment from "moment";
 
 export default {
   props: ["rewardSelected"],
@@ -82,15 +86,9 @@ export default {
     XIcon,
   },
   methods: {
-    openEditorEvent() {
-      this.$store.dispatch("event/saveRewardEdited", {
-        ...this.rewardSelected,
-      });
-      this.$store.dispatch("event/openEditMode");
-    },
-
-    dateFormat(date) {
-      return moment(date).format("DD MMM YYYY");
+    async deleteReward(rewardId) {
+      await this.$store.dispatch("reward/deleteReward", rewardId);
+      await this.$store.dispatch("reward/fetchRewardList");
     },
   },
 };
