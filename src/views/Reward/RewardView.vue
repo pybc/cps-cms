@@ -190,7 +190,6 @@ export default {
           : this.maxRow * this.currentPage - this.maxRow;
       const lastIndex = this.maxRow + startIndex;
       const renderRewardList = this.rewardFilter.slice(startIndex, lastIndex);
-      console.log("renderRewardList : ", renderRewardList);
       return renderRewardList;
     },
     rewardFilter() {
