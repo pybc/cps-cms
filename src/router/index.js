@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import EventView from "../views/Event/EventView.vue";
+import EventCreate from "../views/Event/EventCreate.vue";
 import RewardView from "../views/RewardView.vue";
 import AchievementView from "../views/AchievementView.vue";
 
@@ -17,6 +18,11 @@ const routes = [
     path: "/event",
     name: "event",
     component: EventView,
+  },
+  {
+    path: "/event/create",
+    name: "eventCreate",
+    component: EventCreate,
   },
   {
     path: "/reward",

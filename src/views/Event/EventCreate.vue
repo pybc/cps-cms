@@ -7,19 +7,19 @@
         topic="Edit event is not complete !!"
         text="Please check in on
         some of those fields below."
-        :display="!isFormValidate"
+        :display="!isFormValidate && isSubmit"
       />
       <AlertDanger
         :key="keyAlertDanger"
         topic="Edit event is not complete !!"
         text="Please Try again later."
-        :display="!isSaveSuccess && isSubmit"
+        :display="!isSaveSuccess && isFormValidate && isSubmit"
       />
       <AlertSuccess
         :key="keyAlertSuccess"
         topic="Edit event is complete !!"
         text="Data was saved successfully."
-        :display="isSaveSuccess"
+        :display="isSaveSuccess && isFormValidate"
       />
 
       <section class="w-full md:w-4/6 mx-auto">
@@ -34,28 +34,35 @@
           Edit Event
         </div>
         <img
-          :src="editBase64String || eventItem.img"
+          v-if="this.eventItem.img"
+          :src="this.eventItem.img"
+          class="rounded-lg mx-auto"
+          alt=""
+        />
+        <img
+          v-else
+          src="@/assets/event/picture.png"
           class="rounded-lg mx-auto"
           alt=""
         />
         <div class="flex">
           <div class="mb-8 w-96 relative">
             <div
-              for="editImgEvent"
+              for="imgEvent"
               class="text-sm text-slate-500 font-semibold my-2"
             >
               Select poster event
             </div>
             <input
               class="form-control block w-full px-2 py-1 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-slate-200 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:outline-none"
-              id="editImgEvent"
+              id="imgEvent"
               type="file"
               accept="image/png, image/jpeg"
-              @change="imgToBase64(`editImgEvent`)"
+              @change="imgToBase64(`imgEvent`)"
               :key="keyImgInput"
             />
             <p
-              v-if="!validation.img"
+              v-if="!validation.img && this.isSubmit"
               class="mt-1 text-sm text-red-500 absolute"
             >
               Please select your poster event
@@ -72,7 +79,10 @@
               class="border border-slate-200 p-2 w-full focus:outline-emerald-500"
             />
           </div>
-          <p v-if="!validation.name" class="mb-1 text-sm text-red-500 absolute">
+          <p
+            v-if="!validation.name && this.isSubmit"
+            class="mb-1 text-sm text-red-500 absolute"
+          >
             Please input event name
           </p>
         </div>
@@ -86,7 +96,7 @@
             />
           </div>
           <p
-            v-if="!validation.description"
+            v-if="!validation.description && this.isSubmit"
             class="mb-1 text-sm text-red-500 absolute"
           >
             Please input description
@@ -96,7 +106,7 @@
           <div class="text-sm text-slate-500 font-semibold">Tags</div>
           <div class="flex w-full overflow-x-auto tags">
             <div
-              v-for="(tag, index) in editTagsList"
+              v-for="(tag, index) in tagsList"
               :key="index"
               class="text-sm text-slate-600 capitalize mr-2 my-2"
             >
@@ -111,7 +121,10 @@
               </button>
             </div>
           </div>
-          <p v-if="!validation.tags" class="mb-1 text-sm text-red-500 absolute">
+          <p
+            v-if="!validation.tags && this.isSubmit"
+            class="mb-1 text-sm text-red-500 absolute"
+          >
             Please input tags
           </p>
         </div>
@@ -123,7 +136,7 @@
             class="border border-slate-200 p-2 w-full focus:outline-emerald-500"
           />
           <p
-            v-if="!validation.location"
+            v-if="!validation.location && this.isSubmit"
             class="mb-1 text-sm text-red-500 absolute"
           >
             Please input location
@@ -143,7 +156,7 @@
             />
           </div>
           <p
-            v-if="!validation.status"
+            v-if="!validation.status && this.isSubmit"
             class="mb-1 text-sm text-red-500 absolute"
           >
             Please input status
@@ -160,7 +173,7 @@
               />
             </div>
             <p
-              v-if="!validation.point"
+              v-if="!validation.point && this.isSubmit"
               class="mt-1 text-sm text-red-500 absolute"
             >
               Please input point
@@ -190,7 +203,7 @@
               </div>
             </div>
             <p
-              v-if="!validation.maxMember"
+              v-if="!validation.maxMember && this.isSubmit"
               class="mt-1 text-sm text-red-500 absolute"
             >
               Please input max member
@@ -209,7 +222,7 @@
               />
             </div>
             <p
-              v-if="!validation.section"
+              v-if="!validation.section && this.isSubmit"
               class="mt-1 text-sm text-red-500 absolute"
             >
               Please input section
@@ -228,7 +241,11 @@
             />
           </div>
           <p
-            v-if="!validation.registerStart && !validation.registerEnd"
+            v-if="
+              !validation.registerStart &&
+              !validation.registerEnd &&
+              this.isSubmit
+            "
             class="text-sm text-red-500 absolute top-16"
           >
             Please select date register
@@ -247,7 +264,9 @@
             />
           </div>
           <p
-            v-if="!validation.eventStart && !validation.eventEnd"
+            v-if="
+              !validation.eventStart && !validation.eventEnd && this.isSubmit
+            "
             class="mt-1 text-sm text-red-500 absolute top-16"
           >
             Please select date event
@@ -269,7 +288,7 @@
             Reset Value
           </button>
           <button
-            @click="saveEvent()"
+            @click="create()"
             class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-green-200 p-2 hover:text-emerald-500 hover:border-emerald-500 mx-1"
           >
             <CheckIcon class="p-1" />
@@ -287,6 +306,7 @@ import DropDown from "../../components/DropDown.vue";
 import AlertWarning from "@/components/AlertWarning.vue";
 import AlertSuccess from "@/components/AlertSuccess.vue";
 import AlertDanger from "../../components/AlertDanger.vue";
+import { createEvent } from "@/api/event.service.js";
 import {
   TrashIcon,
   ChevronLeftIcon,
@@ -310,8 +330,22 @@ export default {
     return {
       // REGEX_TEXT: /^[a-zA-Zก-๏\s]+$/,
       REGEX_NUMBER: /^[0-9]*$/,
-      eventItem: "",
-      countEditKey: 0,
+      eventItem: {
+        name: "",
+        img: "",
+        description: "",
+        tags: [],
+        location: "",
+        status: "opened",
+        point: 0,
+        members: [],
+        maxMember: 30,
+        section: 4,
+        registerStart: "",
+        registerEnd: "",
+        eventStart: "",
+        eventEnd: "",
+      },
       countAlertKey: 0,
       keyAlertWarning: "AW" + 0,
       keyAlertSuccess: "AS" + 0,
@@ -326,8 +360,7 @@ export default {
         start: "",
         end: "",
       },
-      editBase64String: "",
-      editTagsList: [
+      tagsList: [
         {
           name: "skill",
           status: false,
@@ -374,49 +407,15 @@ export default {
     };
   },
 
-  computed: {
-    eventEdited() {
-      return this.$store.state.event.eventEdited;
-    },
-  },
-  mounted() {
-    this.eventItem = { ...this.eventEdited };
-    this.checkValidation(this.eventItem);
-    this.eventItem.tags.forEach((tag) => {
-      this.editTagsList.forEach((editTag) => {
-        if (tag.toLowerCase() === editTag.name.toLowerCase()) {
-          editTag.status = true;
-        } else {
-          editTag.status = false;
-        }
-      });
-    });
-  },
   methods: {
-    resetEvent() {
-      this.eventItem = { ...this.eventEdited };
-      this.eventItem.tags.forEach((tag) => {
-        this.editTagsList.forEach((editTag) => {
-          if (tag.toLowerCase() === editTag.name.toLowerCase()) {
-            editTag.status = true;
-          } else {
-            editTag.status = false;
-          }
-        });
-      });
-      this.editBase64String = "";
-      this.countEditKey++;
-      this.keyImgInput = this.keyImgInput + this.countEditKey;
-      this.keyDropdown = this.keyDropdown + this.countEditKey;
-    },
     receiveDropdownEditValue(value) {
       this.eventItem.status = value;
     },
     back() {
-      this.$store.dispatch("event/closeEditMode");
+      this.$router.push("/event");
     },
     imgToBase64() {
-      const file = document.getElementById(`editImgEvent`)["files"][0];
+      const file = document.getElementById(`imgEvent`)["files"][0];
       const reader = new FileReader();
       reader.onload = () => {
         this.eventItem.img = reader.result;
@@ -431,7 +430,7 @@ export default {
       this.dateRangeEvent.start = date.start.toISOString();
       this.dateRangeEvent.end = date.end.toISOString();
     },
-    async saveEvent() {
+    async create() {
       this.eventItem.tags = [];
 
       if (
@@ -446,35 +445,29 @@ export default {
         this.eventItem.eventEnd = this.dateRangeEvent.end;
       }
 
-      this.editTagsList.forEach((editTag) => {
+      this.tagsList.forEach((editTag) => {
         if (editTag.status) {
           this.eventItem.tags.push(editTag.name.toLowerCase());
         }
       });
-      if (this.editBase64String) {
-        this.eventItem.img = this.editBase64String;
-      }
-      this.checkValidation(this.eventItem);
-      if (this.isFormValidate) {
-        this.isSaveSuccess = await this.$store.dispatch(
-          "event/sendEventEditedToDatabase",
-          this.eventItem
-        );
-        this.isSubmit = true;
 
-        // ALERT FAILED
-        if (this.isSaveSuccess) {
+      this.checkValidation(this.eventItem);
+      this.isSubmit = true;
+      if (this.isFormValidate) {
+        this.isSaveSuccess = await createEvent(this.eventItem);
+
+        if (this.isSaveSuccess && this.isSubmit) {
           // ALERT SUCCESS
           this.keyAlertSuccess = this.keyAlertSuccess + this.countAlertKey;
-          await this.$store.dispatch("event/fetchEventList");
-          this.$store.dispatch("event/closeEditMode");
+          this.$router.push("/event");
         } else if (!this.isSaveSuccess && this.isSubmit) {
+          // ALERT FAILED
           this.keyAlertDanger = this.keyAlertDanger + this.countAlertKey;
         }
       } else {
         // ALERT WARNING
         this.isSaveSuccess = false;
-        this.isSubmit = false;
+
         this.keyAlertWarning = this.keyAlertWarning + this.countAlertKey;
         this.countAlertKey++;
       }
