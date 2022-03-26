@@ -1,4 +1,4 @@
-import axios from "axios";
+import { getEventList, updateEvent } from "@/api/event.service.js";
 
 const state = () => ({
   eventList: [],
@@ -30,20 +30,18 @@ const mutations = {
 const actions = {
   async fetchEventList({ commit }) {
     try {
-      const eventList = await axios.get(`${process.env.VUE_APP_API_URL}/event`);
-      commit("setEventList", eventList.data);
+      const eventList = await getEventList();
+      commit("setEventList", eventList);
     } catch (error) {
       console.log("[VueX] fetchEventList error ==> ", error);
     }
   },
+
   async sendEventEditedToDatabase({ commit }, eventEdited) {
     try {
-      const res = await axios.patch(
-        `${process.env.VUE_APP_API_URL}/event/update`,
-        eventEdited
-      );
+      const { status } = await updateEvent(eventEdited);
       commit("setEventEdited", eventEdited);
-      return res.status === 200 ? true : false;
+      return status === 200 ? true : false;
     } catch (error) {
       console.log("[VueX] sendEventEditedToDatabase error ==> ", error);
       return false;
