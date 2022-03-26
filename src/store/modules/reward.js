@@ -1,8 +1,7 @@
-import axios from "axios";
+import { getRewardList } from "@/api/reward.service.js";
 
 const state = () => ({
   rewardList: [],
-  rewardDelete: null,
   rewardEdited: [],
   editMode: false,
 });
@@ -23,9 +22,6 @@ const mutations = {
   setRewardList(state, rewardList) {
     state.rewardList = rewardList;
   },
-  setDeleteReward(state, deleteReward) {
-    state.rewardDelete = deleteReward;
-  },
   setRewardEdited(state, rewardEdited) {
     state.rewardEdited = rewardEdited;
   },
@@ -36,17 +32,8 @@ const mutations = {
 
 const actions = {
   async fetchRewardList({ commit }) {
-    const rewardList = await axios.get(`${process.env.VUE_APP_API_URL}/item`);
-    commit("setRewardList", rewardList.data);
-    console.log("rewardList", rewardList.data);
-  },
-  async deleteReward({ commit }, itemID) {
-    console.log(`${itemID}`);
-    const deleteReward = await axios.delete(
-      `${process.env.VUE_APP_API_URL}/item/delete/${itemID}`
-    );
-    console.log("deleteReward : ", deleteReward);
-    commit("setDeleteReward", deleteReward);
+    const rewardList = await getRewardList();
+    commit("setRewardList", rewardList);
   },
   saveRewardEdited({ commit }, rewardEdited) {
     commit("setRewardEdited", rewardEdited);
