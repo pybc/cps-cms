@@ -65,11 +65,16 @@
       </section>
       <div class="flex justify-center my-2">
         <button
+          :disabled="deleteClicked"
           class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-red-200 p-2 hover:text-red-500 hover:border-red-500 mx-1"
-          @click="() => deleteReward(rewardSelected._id)"
+          @click="
+            () => {
+              deleteReward(rewardSelected._id), (this.deleteClicked = true);
+            }
+          "
         >
           <TrashIcon class="p-1" />
-          Delete Reward
+          {{ !deleteClicked ? `Delete Reward` : `Processing...` }}
         </button>
       </div>
     </section>
@@ -85,9 +90,15 @@ export default {
     TrashIcon,
     XIcon,
   },
+  data() {
+    return {
+      deleteClicked: false,
+    };
+  },
   methods: {
     async deleteReward(rewardId) {
       await this.$store.dispatch("reward/deleteReward", rewardId);
+      this.$emit("closeWindowDetail", false);
       await this.$store.dispatch("reward/fetchRewardList");
     },
   },
