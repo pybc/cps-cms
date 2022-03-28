@@ -9,7 +9,7 @@
         <div class="text-3xl font-bold py-8">Reward</div>
 
         <div class="flex flex-col items-start md:flex-row md:items-center">
-          <div v-if="pointFilter || searchFilter">
+          <div v-if="sortFilter || searchFilter">
             <button
               class="flex items-center bg-red-200 border border-red-200 mx-1 p-1 rounded"
               @click="clear()"
@@ -29,7 +29,7 @@
             value="Select Sort Reward"
             :option="[`High to Low`, `Low to High`]"
             @dropDownValue="receiveDropdownValue"
-            :key="dropdownKey"
+            :key="dropdownPKey"
           />
 
           <button
@@ -172,10 +172,10 @@ export default {
       searchFilter: "",
       currentPage: 1,
       maxRow: 10,
-      pointFilter: "",
+      sortFilter: "",
       countKey: 0,
       searchKey: "s" + 0,
-      dropdownKey: "d" + 0,
+      dropdownPKey: "d" + 0,
       rewardSelected: "",
     };
   },
@@ -199,11 +199,16 @@ export default {
           .toLowerCase()
           .includes(this.searchFilter.toLowerCase());
       });
-      if (this.pointFilter) {
+      if (this.sortFilter) {
+        console.log("sortFilter");
         rewardList =
-          this.pointFilter === `High to Low`
-            ? rewardList.sort((a, b) => b.point - a.point)
-            : rewardList.sort((a, b) => a.point - b.point);
+          this.sortFilter === `High to Low`
+            ? rewardList.sort(
+                (a, b) => b.point - a.point && b.totalItem - a.totalItem
+              ) // Greater then to Less then
+            : rewardList.sort(
+                (a, b) => a.point - b.point && a.totalItem - b.totalItem
+              );
       }
       return rewardList;
     },
@@ -228,18 +233,23 @@ export default {
       this.currentPage > 1 ? this.currentPage-- : "";
     },
     receiveDropdownValue(value) {
-      this.pointFilter = value;
+      this.sortFilter = value;
+      this.currentPage = 1;
+    },
+    receiveSortItemValue(value) {
+      this.itemFilter = value;
       this.currentPage = 1;
     },
 
     clear() {
-      this.pointFilter = "";
+      this.sortFilter = "";
+      this.itemFilter = "";
       this.searchFilter = "";
       this.forceRerenderSearch();
     },
     forceRerenderSearch() {
       this.countKey++;
-      this.dropdownKey = this.dropdownKey + this.countKey;
+      this.dropdownPKey = this.dropdownPKey + this.countKey;
       this.searchKey = this.searchKey + this.countKey;
     },
     selectReward(event) {
