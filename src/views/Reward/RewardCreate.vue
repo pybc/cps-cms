@@ -169,6 +169,7 @@
 import AlertWarning from "@/components/AlertWarning.vue";
 import AlertSuccess from "@/components/AlertSuccess.vue";
 import AlertDanger from "../../components/AlertDanger.vue";
+import imageCompression from "browser-image-compression";
 import { createReward } from "@/api/reward.service.js";
 import {
   ChevronLeftIcon,
@@ -221,13 +222,24 @@ export default {
     back() {
       this.$router.push("/reward");
     },
-    imgToBase64() {
-      const file = document.getElementById(`imgEvent`)["files"][0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.eventItem.img = reader.result;
-      };
-      reader.readAsDataURL(file);
+    async imgToBase64() {
+      try {
+        const file = document.getElementById(`imgEvent`)["files"][0];
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+        };
+        console.log("file : ", file);
+        const compressedFile = await imageCompression(file, options);
+        console.log("compressedFile : ", compressedFile);
+        const reader = new FileReader();
+        reader.readAsDataURL(compressedFile);
+        reader.onload = () => {
+          this.eventItem.img = reader.result;
+        };
+      } catch (error) {
+        console.log(error);
+      }
     },
     onDateRangeRegister(date) {
       this.dateRangeRegister.start = date.start.toISOString();

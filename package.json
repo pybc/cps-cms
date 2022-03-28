@@ -11,6 +11,7 @@
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
     "axios": "^0.26.1",
+    "browser-image-compression": "^1.0.17",
     "core-js": "^3.8.3",
     "moment": "^2.29.1",
     "sass": "^1.49.9",
