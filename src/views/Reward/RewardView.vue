@@ -194,11 +194,18 @@ export default {
       return renderRewardList;
     },
     rewardFilter() {
-      return this.rewardList.filter((reward) => {
+      var rewardList = this.rewardList.filter((reward) => {
         return reward.name
           .toLowerCase()
           .includes(this.searchFilter.toLowerCase());
       });
+      if (this.pointFilter) {
+        rewardList =
+          this.pointFilter === `High to Low`
+            ? rewardList.sort((a, b) => b.point - a.point)
+            : rewardList.sort((a, b) => a.point - b.point);
+      }
+      return rewardList;
     },
     maxPage() {
       return Math.ceil(this.rewardFilter.length / this.maxRow);
