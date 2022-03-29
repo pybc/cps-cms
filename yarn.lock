@@ -1236,14 +1236,14 @@
 
 "@vue-hero-icons/outline@^1.7.2":
   version "1.7.2"
-  resolved "https://registry.yarnpkg.com/@vue-hero-icons/outline/-/outline-1.7.2.tgz#ec723ee45e142d2249948c58be65f5d35e3c4ed3"
+  resolved "https://registry.npmjs.org/@vue-hero-icons/outline/-/outline-1.7.2.tgz"
   integrity sha512-mgMpncarjZHXY1K2tyjbYHf53yQG9amroDR9t2iH/umpsN8+f8RNcTy1m131EZ8WBCm8MpF97XpXPV129rvtVg==
   dependencies:
     babel-helper-vue-jsx-merge-props "^2.0.3"
 
 "@vue-hero-icons/solid@^1.7.2":
   version "1.7.2"
-  resolved "https://registry.yarnpkg.com/@vue-hero-icons/solid/-/solid-1.7.2.tgz#40ce7dca69e216e84af5e3ed7635432b360ac024"
+  resolved "https://registry.npmjs.org/@vue-hero-icons/solid/-/solid-1.7.2.tgz"
   integrity sha512-ngjgdYgdjXp8BuHmx998Kl2tAmbatJXdYO8Cut+DXo9OVGZMuVmIzIjnar4H5Wf9wFVdCuag+HazLEu9F7T3cw==
   dependencies:
     babel-helper-vue-jsx-merge-props "^2.0.3"
@@ -1871,14 +1871,14 @@ autoprefixer@^10.2.4, autoprefixer@^10.4.4:
 
 axios@^0.26.1:
   version "0.26.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
+  resolved "https://registry.npmjs.org/axios/-/axios-0.26.1.tgz"
   integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==
   dependencies:
     follow-redirects "^1.14.8"
 
 babel-helper-vue-jsx-merge-props@^2.0.3:
   version "2.0.3"
-  resolved "https://registry.yarnpkg.com/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-2.0.3.tgz#22aebd3b33902328e513293a8e4992b384f9f1b6"
+  resolved "https://registry.npmjs.org/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-2.0.3.tgz"
   integrity sha512-gsLiKK7Qrb7zYJNgiXKpXblxbV5ffSwR0f5whkPAaBAR4fhi6bwRZxX9wBlIc5M/v8CCkXUbXZL4N/nSE97cqg==
 
 babel-loader@^8.2.2:
@@ -2543,13 +2543,13 @@ csso@^4.2.0:
     css-tree "^1.1.2"
 
 date-fns-tz@^1.1.4:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-1.3.0.tgz#6c83d4bdf20d54060cf176d96a3ca45043b36a84"
-  integrity sha512-r6ye6PmGEvkF467/41qzU71oGwv9kHTnV3vtSZdyV6VThwPID47ZH7FtR7zQWrhgOUWkYySm2ems2w6ZfNUqoA==
+  version "1.3.1"
+  resolved "https://registry.npmjs.org/date-fns-tz/-/date-fns-tz-1.3.1.tgz"
+  integrity sha512-Uy+wph6HcQ0IG8TWbVyXicgDmB1zdvb0CoIknZQaxiTun4uSfxLR+8gSTC2C3KCLq+0fEIuEtJ/ORDRIn6doQw==
 
 date-fns@^2.22.1:
   version "2.28.0"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
+  resolved "https://registry.npmjs.org/date-fns/-/date-fns-2.28.0.tgz"
   integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
 
 de-indent@^1.0.2:
@@ -3612,7 +3612,7 @@ ignore@^5.2.0:
 
 immutable@^4.0.0:
   version "4.0.0"
-  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0.tgz#b86f78de6adef3608395efb269a91462797e2c23"
+  resolved "https://registry.npmjs.org/immutable/-/immutable-4.0.0.tgz"
   integrity sha512-zIE9hX70qew5qTUjSS7wi1iwj/l7+m54KWU247nhM3v806UdGj1yDndXj+IOYxxtW9zyLI+xqFNZjTuDaLUqFw==
 
 import-fresh@^3.0.0, import-fresh@^3.2.1:
@@ -4214,7 +4214,7 @@ module-alias@^2.2.2:
 
 moment@^2.29.1:
   version "2.29.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
+  resolved "https://registry.npmjs.org/moment/-/moment-2.29.1.tgz"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
 mrmime@^1.0.0:
@@ -5244,7 +5244,7 @@ safe-buffer@5.2.1, safe-buffer@>=5.1.0, safe-buffer@^5.0.1, safe-buffer@^5.1.0, 
 
 sass-loader@^12.6.0:
   version "12.6.0"
-  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-12.6.0.tgz#5148362c8e2cdd4b950f3c63ac5d16dbfed37bcb"
+  resolved "https://registry.npmjs.org/sass-loader/-/sass-loader-12.6.0.tgz"
   integrity sha512-oLTaH0YCtX4cfnJZxKSLAyglED0naiYfNG1iXfU5w1LNZ+ukoA5DtyDIN5zmKVZwYNJP4KRc5Y3hkWga+7tYfA==
   dependencies:
     klona "^2.0.4"
@@ -5252,7 +5252,7 @@ sass-loader@^12.6.0:
 
 sass@^1.49.9:
   version "1.49.9"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.49.9.tgz#b15a189ecb0ca9e24634bae5d1ebc191809712f9"
+  resolved "https://registry.npmjs.org/sass/-/sass-1.49.9.tgz"
   integrity sha512-YlYWkkHP9fbwaFRZQRXgDi3mXZShslVmmo+FVK3kHLUELHHEYrCmL1x6IUjC7wLS6VuJSAFXRQS/DxdsC4xL1A==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
@@ -5909,7 +5909,7 @@ uuid@^8.3.2:
 
 v-calendar@^2.4.1:
   version "2.4.1"
-  resolved "https://registry.yarnpkg.com/v-calendar/-/v-calendar-2.4.1.tgz#ab50ee6956833aa8e1d2c7297dc3c0511b1751e7"
+  resolved "https://registry.npmjs.org/v-calendar/-/v-calendar-2.4.1.tgz"
   integrity sha512-nhzOlHM2cinv+8jIcnAx+nTo63U40szv3Ig41uLMpGK1U5sApgCP6ggigprsnlMOM5VRq1G/1B8rNHkRrLbGjw==
   dependencies:
     core-js "^3.15.2"
@@ -5937,7 +5937,7 @@ vary@~1.1.2:
 
 vue-click-outside@^1.1.0:
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/vue-click-outside/-/vue-click-outside-1.1.0.tgz#48b7680b518923e701643cccb3e165854aad99eb"
+  resolved "https://registry.npmjs.org/vue-click-outside/-/vue-click-outside-1.1.0.tgz"
   integrity sha512-pNyvAA9mRXJwPHlHJyjMb4IONSc7khS5lxGcMyE2EIKgNMAO279PWM9Hyq0d5J4FkiSRdmFLwnbjDd5UtPizHQ==
 
 vue-eslint-parser@^8.0.1:

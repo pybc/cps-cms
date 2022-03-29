@@ -10,7 +10,7 @@
       <div class="menu">
         <div><router-link to="/event">Event</router-link></div>
         <div><router-link to="/reward">Reward</router-link></div>
-        <div><router-link to="/achievement">Achievement</router-link></div>
+        <div><router-link to="/claim">Claim</router-link></div>
       </div>
     </div>
   </div>
