@@ -105,6 +105,20 @@
       </section>
       <div class="flex justify-center my-2">
         <button
+          v-if="eventSelected.status === 'opened'"
+          class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-white p-2 hover:bg-slate-200 mx-1"
+          @click="startEvent()"
+        >
+          Start Event
+        </button>
+        <button
+          v-if="eventSelected.status === 'started'"
+          class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-white p-2 hover:bg-slate-200 mx-1"
+          @click="endEvent()"
+        >
+          Close Event
+        </button>
+        <button
           class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-white p-2 hover:bg-slate-200 mx-1"
           @click="openEditorEvent()"
         >
@@ -125,10 +139,31 @@ export default {
   components: {
     PencilIcon,
   },
+  computed: {
+    event() {
+      return this.$store.state.eventEdited;
+    },
+  },
   methods: {
     openEditorEvent() {
       this.$store.dispatch("event/saveEventEdited", { ...this.eventSelected });
       this.$store.dispatch("event/openEditMode");
+    },
+    async startEvent() {
+      let event = { ...this.eventSelected };
+      event.status = "started";
+      this.isSaveSuccess = await this.$store.dispatch(
+        "event/sendEventEditedToDatabase",
+        event
+      );
+    },
+    async endEvent() {
+      let event = { ...this.eventSelected };
+      event.status = "ended";
+      this.isSaveSuccess = await this.$store.dispatch(
+        "event/sendEventEditedToDatabase",
+        event
+      );
     },
 
     dateFormat(date) {
