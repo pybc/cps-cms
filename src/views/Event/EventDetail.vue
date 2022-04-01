@@ -105,25 +105,39 @@
       </section>
       <div class="flex justify-center my-2">
         <button
-          v-if="eventSelected.status === 'opened'"
           class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-white p-2 hover:bg-slate-200 mx-1"
+          @click="openEditorEvent()"
+        >
+          <PencilIcon class="p-1" />
+          Edit Event
+        </button>
+        <button
+          class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-white p-2 hover:bg-slate-200 mx-1"
+          @click="memberEvent()"
+        >
+          Member
+        </button>
+        <button
+          class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-white p-2 hover:bg-slate-200 mx-1"
+          @click="messageEvent()"
+        >
+          Send Message
+        </button>
+      </div>
+      <div class="my-2">
+        <button
+          v-if="eventSelected.status === 'opened'"
+          class="w-full flex items-center justify-center text-sm border font-medium border-slate-200 rounded bg-green-500 text-white p-2 mx-1"
           @click="startEvent()"
         >
           Start Event
         </button>
         <button
           v-if="eventSelected.status === 'started'"
-          class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-white p-2 hover:bg-slate-200 mx-1"
+          class="w-full flex items-center justify-center text-sm border font-medium border-slate-200 rounded bg-red-500 text-white p-2 mx-1"
           @click="endEvent()"
         >
           Close Event
-        </button>
-        <button
-          class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-white p-2 hover:bg-slate-200 mx-1"
-          @click="openEditorEvent()"
-        >
-          <PencilIcon class="p-1" />
-          Edit Event
         </button>
       </div>
     </section>
@@ -164,6 +178,12 @@ export default {
         "event/sendEventEditedToDatabase",
         event
       );
+    },
+    memberEvent() {
+      this.$router.push(`/event/member/${this.eventSelected._id}`);
+    },
+    messageEvent() {
+      this.$router.push(`/event/message/${this.eventSelected._id}`);
     },
 
     dateFormat(date) {
