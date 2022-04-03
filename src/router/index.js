@@ -2,6 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import EventView from "../views/Event/EventView.vue";
+import EventMember from "../views/Event/EventMember.vue";
+import EventMessage from "../views/Event/EventMessage.vue";
 import EventCreate from "../views/Event/EventCreate.vue";
 import RewardView from "../views/Reward/RewardView.vue";
 import RewardCreate from "../views/Reward/RewardCreate.vue";
@@ -19,6 +21,16 @@ const routes = [
     path: "/event",
     name: "event",
     component: EventView,
+  },
+  {
+    path: "/event/member/:eventId",
+    name: "eventMember",
+    component: EventMember,
+  },
+  {
+    path: "/event/message/:eventId",
+    name: "eventMessage",
+    component: EventMessage,
   },
   {
     path: "/event/create",
