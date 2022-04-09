@@ -113,15 +113,9 @@
         </button>
         <button
           class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-white p-2 hover:bg-slate-200 mx-1"
-          @click="memberEvent()"
+          @click="otherEvent()"
         >
-          Member
-        </button>
-        <button
-          class="flex items-center text-sm border text-slate-600 font-medium border-slate-200 rounded bg-white p-2 hover:bg-slate-200 mx-1"
-          @click="messageEvent()"
-        >
-          Send Message
+          Other
         </button>
       </div>
       <div class="my-2">
@@ -153,12 +147,15 @@ export default {
   components: {
     PencilIcon,
   },
-  computed: {
-    event() {
-      return this.$store.state.eventEdited;
-    },
+  data() {
+    return {
+      eventData: [],
+    };
   },
   methods: {
+    async fetchEventList() {
+      await this.$store.dispatch("event/fetchEventList");
+    },
     openEditorEvent() {
       this.$store.dispatch("event/saveEventEdited", { ...this.eventSelected });
       this.$store.dispatch("event/openEditMode");
@@ -166,24 +163,60 @@ export default {
     async startEvent() {
       let event = { ...this.eventSelected };
       event.status = "started";
-      this.isSaveSuccess = await this.$store.dispatch(
+      const isSaveSuccess = await this.$store.dispatch(
         "event/sendEventEditedToDatabase",
         event
       );
+      if (isSaveSuccess) {
+        this.$swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Your data has been saved !",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        await this.fetchEventList();
+        this.$store.dispatch("event/saveEventEdited", []);
+      } else {
+        this.$swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Error please try again later !",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     },
     async endEvent() {
       let event = { ...this.eventSelected };
       event.status = "ended";
-      this.isSaveSuccess = await this.$store.dispatch(
+      const isSaveSuccess = await this.$store.dispatch(
         "event/sendEventEditedToDatabase",
         event
       );
+
+      if (isSaveSuccess) {
+        this.$swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Your data has been saved !",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        await this.fetchEventList();
+        this.$store.dispatch("event/saveEventEdited", []);
+      } else {
+        this.$swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Error please try again later !",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     },
-    memberEvent() {
-      this.$router.push(`/event/member/${this.eventSelected._id}`);
-    },
-    messageEvent() {
-      this.$router.push(`/event/message/${this.eventSelected._id}`);
+    otherEvent() {
+      this.$router.push(`/event/other/${this.eventSelected._id}`);
     },
 
     dateFormat(date) {
