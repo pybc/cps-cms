@@ -1,27 +1,6 @@
 <template>
   <div>
     <section>
-      <!-- ALERT -->
-      <AlertWarning
-        :key="keyAlertWarning"
-        topic="Edit reward is not complete !!"
-        text="Please check in on
-        some of those fields below."
-        :display="!isFormValidate && isSubmit"
-      />
-      <AlertDanger
-        :key="keyAlertDanger"
-        topic="Edit reward is not complete !!"
-        text="Please Try again later."
-        :display="!isSaveSuccess && isFormValidate && isSubmit"
-      />
-      <AlertSuccess
-        :key="keyAlertSuccess"
-        topic="Edit reward is complete !!"
-        text="Data was saved successfully."
-        :display="isSaveSuccess && isFormValidate"
-      />
-
       <section class="w-full md:w-4/6 mx-auto">
         <button
           @click="back()"
@@ -166,9 +145,6 @@
 </template>
 
 <script>
-import AlertWarning from "@/components/AlertWarning.vue";
-import AlertSuccess from "@/components/AlertSuccess.vue";
-import AlertDanger from "../../components/AlertDanger.vue";
 import { createReward } from "@/api/reward.service.js";
 import {
   ChevronLeftIcon,
@@ -181,9 +157,6 @@ export default {
     ChevronLeftIcon,
     CheckIcon,
     RefreshIcon,
-    AlertWarning,
-    AlertSuccess,
-    AlertDanger,
   },
   data() {
     return {
@@ -195,10 +168,6 @@ export default {
         point: 0,
         totalItem: 0,
       },
-      countAlertKey: 0,
-      keyAlertWarning: "AW" + 0,
-      keyAlertSuccess: "AS" + 0,
-      keyAlertDanger: "AD" + 0,
       keyDropdown: "DDE" + 0,
       keyImgInput: "I" + 0,
       validation: {
@@ -248,18 +217,35 @@ export default {
 
         if (this.isSaveSuccess && this.isSubmit) {
           // ALERT SUCCESS
-          this.keyAlertSuccess = this.keyAlertSuccess + this.countAlertKey;
+          this.$swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Reward has been Created !",
+            showConfirmButton: false,
+            timer: 2000,
+          });
           this.$router.push("/reward");
         } else if (!this.isSaveSuccess && this.isSubmit) {
           // ALERT FAILED
-          this.keyAlertDanger = this.keyAlertDanger + this.countAlertKey;
+          this.$swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Error please try again later !",
+            showConfirmButton: false,
+            timer: 2000,
+          });
         }
       } else {
         // ALERT WARNING
         this.isSaveSuccess = false;
         this.isSubmit = false;
-        this.keyAlertWarning = this.keyAlertWarning + this.countAlertKey;
-        this.countAlertKey++;
+        this.$swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "Failed to create reward, Please check input !!",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     },
     checkValidation(reward) {

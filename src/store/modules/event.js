@@ -1,8 +1,13 @@
-import { getEventList, updateEvent } from "@/api/event.service.js";
+import {
+  getEventList,
+  updateEvent,
+  getEventById,
+} from "@/api/event.service.js";
 
 const state = () => ({
   eventList: [],
   eventEdited: [],
+  eventById: [],
   editMode: false,
 });
 const getters = {
@@ -15,10 +20,16 @@ const getters = {
   getEditMode(state) {
     return state.editMode;
   },
+  getEventById(state) {
+    return state.eventById;
+  },
 };
 const mutations = {
   setEventList(state, eventList) {
     state.eventList = eventList;
+  },
+  setEventById(state, eventById) {
+    state.eventById = eventById;
   },
   setEventEdited(state, eventEdited) {
     state.eventEdited = eventEdited;
@@ -34,6 +45,17 @@ const actions = {
       commit("setEventList", eventList);
     } catch (error) {
       console.log("[VueX] fetchEventList error ==> ", error);
+    }
+  },
+
+  async fetchEventById({ commit }, id) {
+    try {
+      const eventById = await getEventById(id);
+      commit("setEventById", eventById[0]);
+      console.log("eventById", eventById[0]);
+      return eventById[0];
+    } catch (error) {
+      console.log("[VueX] fetchEventById error ==> ", error);
     }
   },
 

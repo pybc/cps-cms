@@ -1,20 +1,5 @@
 <template>
   <div class="h-full">
-    <!-- ALERT -->
-    <section>
-      <AlertDanger
-        :key="keyAlertDanger"
-        topic="Process is not complete !!"
-        text="Please Try again later."
-        :display="isAlertDanger"
-      />
-      <AlertSuccess
-        :key="keyAlertSuccess"
-        topic="Process is complete !!"
-        text="Process was saved successfully."
-        :display="isAlertSuccess"
-      />
-    </section>
     <section>
       <section class="overflow-y-auto">
         <div class="flex text-center text-slate-600 font-semibold my-5">
@@ -289,23 +274,15 @@
 
 <script>
 import moment from "moment";
-import AlertDanger from "@/components/AlertDanger.vue";
-import AlertSuccess from "@/components/AlertSuccess.vue";
 import { confirmClaim, cancelClaim } from "@/api/claim.service.js";
 export default {
   props: ["claimSelected"],
-  components: { AlertDanger, AlertSuccess },
   data() {
     return {
       isSendMessage: false,
       isModalConfirm: false,
       isModalCancel: false,
       message: "",
-      isAlertDanger: false,
-      keyAlertDanger: "AD" + 0,
-      isAlertSuccess: false,
-      keyAlertSuccess: "AS" + 0,
-      countAlertKey: 0,
     };
   },
   methods: {
@@ -320,11 +297,21 @@ export default {
         message: this.message,
       });
       if (status === 200) {
-        this.keyAlertSuccess = this.keyAlertSuccess + this.countAlertKey;
-        this.isAlertSuccess = true;
+        this.$swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Claim has been confirmed !",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       } else {
-        this.keyAlertDanger = this.keyAlertDanger + this.countAlertKey;
-        this.isAlertDanger = true;
+        this.$swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Error please try again later !",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     },
     async cancelClaim() {
@@ -335,11 +322,21 @@ export default {
         message: this.message,
       });
       if (status === 200) {
-        this.keyAlertSuccess = this.keyAlertSuccess + this.countAlertKey;
-        this.isAlertSuccess = true;
+        this.$swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Claim has been canceled !",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       } else {
-        this.keyAlertDanger = this.keyAlertDanger + this.countAlertKey;
-        this.isAlertDanger = true;
+        this.$swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Error please try again later !",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     },
   },
