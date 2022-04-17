@@ -72,7 +72,7 @@
                 {{ maxRow * currentPage - maxRow + (index + 1) }}
               </td>
               <td class="">
-                <div class="flex items-center justify-center text-black">
+                <div class="flex items-center justify-center">
                   <div class="ml-5">
                     <img
                       class="flex-shrink-0 w-10 h-10 rounded-full"
