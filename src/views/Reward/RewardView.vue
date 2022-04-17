@@ -11,7 +11,7 @@
         <div class="flex flex-col items-start md:flex-row md:items-center">
           <div v-if="pointFilter || searchFilter">
             <button
-              class="flex items-center bg-red-200 border border-red-200 mx-1 p-1 rounded"
+              class="flex bg-white border border-slate-200 md:mx-1 p-2 drop-shadow rounded"
               @click="clear()"
             >
               Clear <XIcon class="text-red-400" />
