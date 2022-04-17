@@ -1,5 +1,15 @@
 <template>
   <div class="h-auto bg-slate-50 flex flex-col lg:grid grid-cols-4">
+    <loading
+      :active="isLoadingStatus"
+      :can-cancel="false"
+      :is-full-page="true"
+      color="#15C5B5"
+      loader="dots"
+      :height="60"
+      :width="70"
+      :lock-scroll="true"
+    ></loading>
     <section
       v-if="editMode === false"
       :class="[`  px-5`, eventSelected ? `col-span-3` : `col-span-4`]"
@@ -168,6 +178,8 @@ import SearchBar from "../../components/SearchBar.vue";
 import DropDown from "../../components/DropDown.vue";
 import EventEdit from "../Event/EventEdit.vue";
 import EventDetail from "../Event/EventDetail.vue";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 import {
   PlusIcon,
@@ -186,9 +198,11 @@ export default {
     XIcon,
     EventEdit,
     EventDetail,
+    Loading,
   },
   data() {
     return {
+      isLoading: false,
       searchValue: "",
       currentPage: 1,
       maxRow: 10,
@@ -224,13 +238,18 @@ export default {
     maxPage() {
       return Math.ceil(this.eventFilter.length / this.maxRow);
     },
+    isLoadingStatus() {
+      return this.isLoading;
+    },
   },
   async mounted() {
     await this.fetchEventList();
   },
   methods: {
     async fetchEventList() {
+      this.isLoading = true;
       await this.$store.dispatch("event/fetchEventList");
+      this.isLoading = false;
     },
     receiveInputValue(searchValue) {
       this.searchValue = searchValue;

@@ -1,5 +1,15 @@
 <template>
   <div class="h-auto bg-slate-50 flex flex-col lg:grid grid-cols-4">
+    <loading
+      :active="isLoadingStatus"
+      :can-cancel="false"
+      :is-full-page="true"
+      color="#15C5B5"
+      loader="dots"
+      :height="60"
+      :width="70"
+      :lock-scroll="true"
+    ></loading>
     <section :class="[`  px-5`, claimSelected ? `col-span-3` : `col-span-4`]">
       <!-- MENU -->
       <section class="flex flex-col lg:flex-row md:justify-between">
@@ -147,7 +157,8 @@ import moment from "moment";
 import SearchBar from "../../components/SearchBar.vue";
 import DropDown from "../../components/DropDown.vue";
 import ClaimDetail from "../Claim/ClaimDetail.vue";
-
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 import { ArrowLeftIcon, ArrowRightIcon, XIcon } from "@vue-hero-icons/outline";
 export default {
   name: "ClaimView",
@@ -158,9 +169,11 @@ export default {
     ArrowRightIcon,
     XIcon,
     ClaimDetail,
+    Loading,
   },
   data() {
     return {
+      isLoading: false,
       searchValue: "",
       currentPage: 1,
       maxRow: 10,
@@ -205,13 +218,18 @@ export default {
     maxPage() {
       return Math.ceil(this.claimFilter.length / this.maxRow);
     },
+    isLoadingStatus() {
+      return this.isLoading;
+    },
   },
   async mounted() {
     await this.fetchClaimList();
   },
   methods: {
     async fetchClaimList() {
+      this.isLoading = true;
       await this.$store.dispatch("claim/fetchClaimList");
+      this.isLoading = false;
     },
     receiveInputValue(searchValue) {
       this.searchValue = searchValue;
