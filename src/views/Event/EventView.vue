@@ -54,6 +54,7 @@
             class="h-10 bg-slate-50 border border-slate-200 px-3 font-semibold text-slate-500 uppercase text-xs"
           >
             <tr>
+              <th>NO.</th>
               <th>Name</th>
               <th>Start Date</th>
               <th>End Date</th>
@@ -64,10 +65,13 @@
           <tbody>
             <tr
               class="h-14 border bg-white border-slate-200 hover:bg-slate-100 px-3 text-sm cursor-pointer text-center text-slate-500"
-              v-for="event in renderList"
+              v-for="(event, index) in renderList"
               :key="event._id"
               @click="selectEvent(event)"
             >
+              <td>
+                {{ maxRow * currentPage - maxRow + (index + 1) }}
+              </td>
               <td>
                 <span class="text-black">{{ event.name }}</span>
               </td>
