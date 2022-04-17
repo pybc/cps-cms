@@ -55,6 +55,7 @@
           >
             <tr>
               <th>No.</th>
+              <th></th>
               <th>Name</th>
               <th>Point</th>
               <th>Item</th>
@@ -70,13 +71,19 @@
               <td>
                 {{ maxRow * currentPage - maxRow + (index + 1) }}
               </td>
-              <td class="font-medium">
+              <td class="">
                 <div class="flex items-center justify-center text-black">
-                  <img
-                    class="flex-shrink-0 w-10 h-10 rounded-full"
-                    :src="reward.img"
-                    alt=""
-                  />
+                  <div class="ml-5">
+                    <img
+                      class="flex-shrink-0 w-10 h-10 rounded-full"
+                      :src="reward.img"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </td>
+              <td class="font-medium w-1/2">
+                <div class="flex items-center justify-center text-black">
                   <div class="ml-5">
                     <p class="text-gray-900 whitespace-no-wrap">
                       {{ reward.name }}
