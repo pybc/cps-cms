@@ -44,6 +44,7 @@
           <div class="text-sm text-slate-500 font-semibold">Description</div>
           <div class="text-sm text-slate-600 break-words my-2">
             <textarea
+              disabled
               type="text"
               :value="rewardSelected.description"
               class="w-full h-28 p-2 my-2 text-sm text-slate-600 resize-none rounded border border-emerald-500 focus:outline-emerald-500"
