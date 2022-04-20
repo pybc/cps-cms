@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import HomeView from "../views/HomeView.vue";
+import HomeView from "../views/HomeView.vue";
 import EventView from "../views/Event/EventView.vue";
 // import EventMember from "../views/Event/EventMember.vue";
 import EventOther from "../views/Event/EventOther.vue";
@@ -12,13 +12,13 @@ import ClaimView from "../views/Claim/ClaimView.vue";
 Vue.use(VueRouter);
 
 const routes = [
-  // {
-  //   path: "/",
-  //   name: "home",
-  //   component: HomeView,
-  // },
   {
     path: "/",
+    name: "home",
+    component: HomeView,
+  },
+  {
+    path: "/event",
     name: "event",
     component: EventView,
   },

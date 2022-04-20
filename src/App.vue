@@ -1,8 +1,8 @@
 <template>
   <div id="app" class="bg-slate-50">
-    <SideBar />
-    <TopBar />
-    <router-view class="xl:ml-64" />
+    <SideBar v-if="loginStatus" />
+    <TopBar v-if="loginStatus" />
+    <router-view :class="[loginStatus ? `xl:ml-64` : ``]" />
   </div>
 </template>
 
@@ -13,6 +13,11 @@ export default {
   components: {
     SideBar,
     TopBar,
+  },
+  data() {
+    return {
+      loginStatus: false,
+    };
   },
 };
 </script>
