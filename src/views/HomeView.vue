@@ -1,5 +1,5 @@
 <template>
-  <div class="home relative h-full">
+  <div class="bg-white relative h-full z-10">
     <img src="@/assets/home/top-frame.png" alt="" class="w-3/6" />
     <div class="absolute img-logo text-center">
       <img src="@/assets/home/logo.png" alt="" />
@@ -45,7 +45,6 @@ export default {
       await lineUtils.login();
       const lineProfile = await lineUtils.getProfile();
       await this.$store.dispatch("auth/initProfile", lineProfile);
-      this.$emit("onLogin", lineProfile);
       this.$router.push("/event");
     },
   },

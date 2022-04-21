@@ -1,8 +1,8 @@
 <template>
-  <div id="app" :class="[loginStatus ? `bg-slate-50` : ``]">
-    <SideBar v-if="loginStatus" />
-    <TopBar v-if="loginStatus" />
-    <router-view @onLogin="onLogin" :class="[loginStatus ? `xl:ml-64` : ``]" />
+  <div id="app" class="`bg-slate-50`">
+    <SideBar />
+    <TopBar />
+    <router-view class="`xl:ml-64`" />
   </div>
 </template>
 
@@ -13,20 +13,6 @@ export default {
   components: {
     SideBar,
     TopBar,
-  },
-  data() {
-    return {
-      loginStatus: false,
-    };
-  },
-  methods: {
-    onLogin(lineProfile) {
-      if (lineProfile.length) {
-        this.loginStatus = true;
-      } else {
-        this.loginStatus = false;
-      }
-    },
   },
 };
 </script>
