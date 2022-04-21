@@ -27,7 +27,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import { mapGetters } from "vuex";
 import lineUtils from "@/utils/line.utils";
 export default {
@@ -47,6 +46,7 @@ export default {
       const lineProfile = await lineUtils.getProfile();
       await this.$store.dispatch("auth/initProfile", lineProfile);
       this.$router.push("/event");
+      this.$emit("onLogin", lineProfile);
     },
   },
 };
