@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import auth from "./modules/auth";
 import event from "./modules/event";
 import reward from "./modules/reward";
 import claim from "./modules/claim";
@@ -11,5 +12,5 @@ export default new Vuex.Store({
   getters: {},
   mutations: {},
   actions: {},
-  modules: { event, reward, claim },
+  modules: { event, reward, claim, auth },
 });

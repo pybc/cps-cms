@@ -27,13 +27,21 @@
 
 <script>
 // @ is an alias to /src
+import { mapGetters } from "vuex";
 import lineUtils from "@/utils/line.utils";
 export default {
   name: "HomeView",
   components: {},
+  computed: {
+    ...mapGetters({
+      userProfile: "auth/getUserProfile",
+    }),
+  },
   async created() {
     await lineUtils.init();
     await lineUtils.login();
+    const res = await lineUtils.getProfile();
+    console.log(res);
   },
 };
 </script>

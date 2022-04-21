@@ -48,7 +48,8 @@ class LineUtil {
 
   async getProfile() {
     const lineProfile = await liff.getProfile();
-    await this.$store.dispatch("user/setLineProfile", lineProfile);
+    await this.$store.dispatch("auth/initProfile", lineProfile);
+    return lineProfile;
   }
 
   async getIDToken() {
