@@ -8,6 +8,7 @@ import EventCreate from "../views/Event/EventCreate.vue";
 import RewardView from "../views/Reward/RewardView.vue";
 import RewardCreate from "../views/Reward/RewardCreate.vue";
 import ClaimView from "../views/Claim/ClaimView.vue";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -77,7 +78,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    if (!this.$store.auth.userProfile.length) {
+    if (!store.auth.userProfile.length) {
       next({
         path: "/home",
         query: { redirect: to.fullPath },
