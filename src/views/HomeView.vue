@@ -40,8 +40,9 @@ export default {
   async created() {
     await lineUtils.init();
     await lineUtils.login();
-    const res = await lineUtils.getProfile();
-    console.log(res);
+    const lineProfile = await lineUtils.getProfile();
+    await this.$store.dispatch("auth/initProfile", lineProfile);
+    console.log(lineProfile);
   },
 };
 </script>

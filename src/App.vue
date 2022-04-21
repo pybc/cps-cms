@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import SideBar from "./components/SideBar.vue";
 import TopBar from "./components/TopBar.vue";
 export default {
@@ -16,8 +17,19 @@ export default {
   },
   data() {
     return {
-      loginStatus: false,
+      profile: [],
     };
+  },
+  computed: {
+    ...mapGetters({
+      userProfile: "auth/getUserProfile",
+    }),
+    loginStatus() {
+      return this.profile.length ? true : false;
+    },
+  },
+  created() {
+    this.profile = [...this.userProfile];
   },
 };
 </script>
