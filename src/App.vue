@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="bg-slate-50">
+  <div id="app" :class="[loginStatus ? `bg-slate-50` : ``]">
     <SideBar v-if="loginStatus" />
     <TopBar v-if="loginStatus" />
     <router-view :class="[loginStatus ? `xl:ml-64` : ``]" />
