@@ -78,7 +78,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     // this route requires auth, check if logged in
     // if not, redirect to login page.
-    if (!auth.userProfile.length) {
+    if (!auth.state.userProfile.length) {
       next({
         path: "/home",
         query: { redirect: to.fullPath },
