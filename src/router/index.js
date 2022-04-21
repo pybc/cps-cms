@@ -8,8 +8,6 @@ import EventCreate from "../views/Event/EventCreate.vue";
 import RewardView from "../views/Reward/RewardView.vue";
 import RewardCreate from "../views/Reward/RewardCreate.vue";
 import ClaimView from "../views/Claim/ClaimView.vue";
-import auth from "@/store/modules/auth";
-import store from "@/store";
 
 Vue.use(VueRouter);
 
