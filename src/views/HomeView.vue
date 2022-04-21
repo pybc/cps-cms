@@ -7,6 +7,7 @@
         Workshop Management Tools
       </div>
       <button
+        @click="onLogin()"
         class="bg-primary text-white font-semibold py-2 px-10 rounded mt-5"
       >
         Sign in with LINE
@@ -39,10 +40,14 @@ export default {
   },
   async created() {
     await lineUtils.init();
-    await lineUtils.login();
-    const lineProfile = await lineUtils.getProfile();
-    await this.$store.dispatch("auth/initProfile", lineProfile);
-    console.log(lineProfile);
+  },
+  methods: {
+    async onLogin() {
+      await lineUtils.login();
+      const lineProfile = await lineUtils.getProfile();
+      await this.$store.dispatch("auth/initProfile", lineProfile);
+      this.$router.push("/event");
+    },
   },
 };
 </script>
