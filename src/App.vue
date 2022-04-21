@@ -17,19 +17,18 @@ export default {
   },
   data() {
     return {
-      profile: [],
+      loginStatus: false,
     };
   },
   computed: {
     ...mapGetters({
       userProfile: "auth/getUserProfile",
     }),
-    loginStatus() {
-      return this.profile.length ? true : false;
-    },
   },
   created() {
-    this.profile = [...this.userProfile];
+    if (this.userProfile.length) {
+      this.loginStatus = true;
+    }
   },
 };
 </script>
