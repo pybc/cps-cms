@@ -45,8 +45,8 @@ export default {
       await lineUtils.login();
       const lineProfile = await lineUtils.getProfile();
       await this.$store.dispatch("auth/initProfile", lineProfile);
-      this.$router.push("/event");
       this.$emit("onLogin", lineProfile);
+      this.$router.push("/event");
     },
   },
 };
