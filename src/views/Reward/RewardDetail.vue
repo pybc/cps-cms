@@ -1,18 +1,6 @@
 <template>
   <div>
     <section>
-      <AlertDanger
-        :key="keyAlertDanger"
-        topic="Remove reward is not complete !!"
-        text="Please Try again later."
-        :display="!deleteStatus && deleteClicked"
-      />
-      <AlertSuccess
-        :key="keyAlertSuccess"
-        topic="Remove reward is complete !!"
-        text="Data was cleared successfully."
-        :display="deleteStatus && deleteClicked"
-      />
       <section class="overflow-y-auto">
         <div class="flex text-center text-slate-600 font-semibold my-5">
           Reward Summary
@@ -87,7 +75,7 @@
           class="w-full flex items-center justify-center text-sm border font-medium border-slate-200 rounded bg-red-500 text-white p-2 mx-1 hover:border-red-800 hover:text-slate-600"
           @click="$emit('closeWindowDetail', false)"
         >
-          Close Event
+          Close
         </button>
       </div>
     </section>
@@ -97,22 +85,15 @@
 <script>
 import { TrashIcon } from "@vue-hero-icons/outline";
 import { deleteReward } from "@/api/reward.service.js";
-import AlertSuccess from "@/components/AlertSuccess.vue";
-import AlertDanger from "../../components/AlertDanger.vue";
+
 export default {
   props: ["rewardSelected"],
   components: {
     TrashIcon,
-    AlertSuccess,
-    AlertDanger,
   },
   data() {
     return {
       deleteClicked: false,
-      deleteStatus: null,
-      keyAlertSuccess: "AS" + 0,
-      keyAlertDanger: "AD" + 0,
-      index: 1,
     };
   },
   methods: {
@@ -122,28 +103,25 @@ export default {
       console.log("Response deleteReward : ", response.status);
 
       if (response.status === 200) {
-        console.log("Status 200");
-        this.keyAlertSuccess = `AS${this.index}`;
-        this.index++;
-        console.log("Index : ", this.index);
+        this.$swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Reward has been removed !",
+          showConfirmButton: false,
+          timer: 2000,
+        });
         this.$emit("closeWindowDetail", false);
         await this.$store.dispatch("reward/fetchRewardList");
       } else {
-        console.log("Status !== 200");
-        this.keyAlertDanger = `AD${this.index}`;
-        this.index++;
-        console.log("Index : ", this.index);
-        this.deleteClicked = false;
+        this.$swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Error please try again later !",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
-      response.status === 200
-        ? (this.deleteStatus = true)
-        : (this.deleteStatus = false);
-      this.deleteClicked = true;
-      console.log("deleteClicked : ", this.deleteClicked);
-      console.log("deleteStatus : ", this.deleteStatus);
     },
   },
 };
 </script>
-
-<style lang="scss" scoped></style>
