@@ -11,7 +11,7 @@
         <div class="mx-2">
           <img
             @click="idNavTop++"
-            src="@/assets/user-mockup.jpg"
+            :src="pictureUrl"
             class="rounded-full w-10 h-10"
             alt="user-profile"
           />
@@ -29,6 +29,7 @@ export default {
     return {
       isLogin: false,
       displayName: "",
+      pictureUrl: "",
       idNavTop: 0,
     };
   },
@@ -50,6 +51,7 @@ export default {
     console.log("nav ->", this.userProfile.length);
     if (this.userProfile) {
       this.displayName = this.userProfile.displayName;
+      this.pictureUrl = this.userProfile.pictureUrl;
       this.isLogin = true;
     } else {
       this.isLogin = false;
