@@ -1,5 +1,5 @@
 const state = () => ({
-  userProfile: [],
+  userProfile: "",
 });
 const getters = {
   getUserProfile(state) {
@@ -14,7 +14,7 @@ const mutations = {
 const actions = {
   async initProfile({ commit }, profile) {
     try {
-      commit("setClaimList", profile);
+      commit("setUserProfile", profile);
       console.log("profile", profile);
     } catch (error) {
       console.log("[VueX] initProfile error ==> ", error);

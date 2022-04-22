@@ -8,7 +8,7 @@
         <img src="@/assets/logo/cps-logo.png" class="w-24" alt="" />
       </div>
       <div class="menu">
-        <div><router-link to="/">Event</router-link></div>
+        <div><router-link to="/event">Event</router-link></div>
         <div><router-link to="/reward">Reward</router-link></div>
         <div><router-link to="/claim">Claim</router-link></div>
       </div>

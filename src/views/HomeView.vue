@@ -39,6 +39,7 @@ export default {
   },
   async created() {
     await lineUtils.init();
+    await this.$store.dispatch("auth/initProfile", "");
   },
   methods: {
     async onLogin() {
