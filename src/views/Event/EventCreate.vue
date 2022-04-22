@@ -122,7 +122,7 @@
           </p>
         </div>
 
-        <div class="relative mb-8">
+        <!-- <div class="relative mb-8">
           <div class="flex justify-between items-center">
             <div class="text-sm text-slate-500 font-semibold">Status</div>
 
@@ -140,7 +140,7 @@
           >
             Please input status
           </p>
-        </div>
+        </div> -->
         <div class="flex justify-between items-center mb-8">
           <div class="relative">
             <div class="flex items-center">
@@ -281,7 +281,7 @@
 
 <script>
 import DateRange from "../../components/DateRange.vue";
-import DropDown from "../../components/DropDown.vue";
+// import DropDown from "../../components/DropDown.vue";
 import { createEvent } from "@/api/event.service.js";
 import {
   TrashIcon,
@@ -297,7 +297,6 @@ export default {
     CheckIcon,
     RefreshIcon,
     DateRange,
-    DropDown,
   },
   data() {
     return {
@@ -361,7 +360,6 @@ export default {
         description: false,
         tags: false,
         location: false,
-        status: false,
         point: false,
         maxMember: false,
         section: false,
@@ -467,8 +465,6 @@ export default {
       this.validation.tags = event.tags.length ? true : false;
       // CHECK EMPTY LOCATION
       this.validation.location = event.location ? true : false;
-      // CHECK EMPTY STATUS
-      this.validation.status = event.status ? true : false;
       // VALIDATE POINT
       this.validation.point =
         event.point && this.REGEX_NUMBER.test(event.point);
@@ -493,7 +489,6 @@ export default {
         this.validation.description &&
         this.validation.tags &&
         this.validation.location &&
-        this.validation.status &&
         this.validation.point &&
         this.validation.maxMember &&
         this.validation.section &&
