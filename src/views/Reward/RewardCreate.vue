@@ -146,6 +146,7 @@
 
 <script>
 import { createReward } from "@/api/reward.service.js";
+import imageCompression from "browser-image-compression";
 import {
   ChevronLeftIcon,
   CheckIcon,
@@ -190,13 +191,15 @@ export default {
     back() {
       this.$router.push("/reward");
     },
-    imgToBase64() {
+    async imgToBase64() {
       const file = document.getElementById(`imgEvent`)["files"][0];
+      const options = { maxWidthOrHeight: 500, useWebWorker: true };
+      const compressedFile = await imageCompression(file, options);
       const reader = new FileReader();
       reader.onload = () => {
         this.eventItem.img = reader.result;
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(compressedFile);
     },
     onDateRangeRegister(date) {
       this.dateRangeRegister.start = date.start.toISOString();
@@ -210,9 +213,9 @@ export default {
       this.checkValidation(this.eventItem);
       this.isSubmit = true;
       if (this.isFormValidate) {
+        console.log("this.eventItem : ", this.eventItem);
         this.isSaveSuccess = await createReward({
           ...this.eventItem,
-          img: "https://www.img.in.th/images/b3da56b6b62ede85ffb4a3ecda739cb9.jpg",
         });
 
         if (this.isSaveSuccess && this.isSubmit) {

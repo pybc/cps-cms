@@ -282,6 +282,7 @@
 <script>
 import DateRange from "../../components/DateRange.vue";
 // import DropDown from "../../components/DropDown.vue";
+import imageCompression from "browser-image-compression";
 import { createEvent } from "@/api/event.service.js";
 import {
   TrashIcon,
@@ -381,13 +382,15 @@ export default {
     back() {
       this.$router.push("/event");
     },
-    imgToBase64() {
+    async imgToBase64() {
       const file = document.getElementById(`imgEvent`)["files"][0];
+      const options = { maxWidthOrHeight: 500, useWebWorker: true };
+      const compressedFile = await imageCompression(file, options);
       const reader = new FileReader();
       reader.onload = () => {
         this.eventItem.img = reader.result;
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(compressedFile);
     },
     onDateRangeRegister(date) {
       this.dateRangeRegister.start = date.start.toISOString();
