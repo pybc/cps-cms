@@ -8,7 +8,7 @@ import EventCreate from "../views/Event/EventCreate.vue";
 import RewardView from "../views/Reward/RewardView.vue";
 import RewardCreate from "../views/Reward/RewardCreate.vue";
 import ClaimView from "../views/Claim/ClaimView.vue";
-import auth from "@/store/modules/auth";
+// import auth from "@/store/modules/auth";
 // import { store } from "@/store";
 
 Vue.use(VueRouter);
@@ -75,21 +75,21 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
-    if (!auth.state.userProfile) {
-      next({
-        path: "/home",
-        query: { redirect: to.fullPath },
-      });
-    } else {
-      next();
-    }
-  } else {
-    next(); // make sure to always call next()!
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some((record) => record.meta.requiresAuth)) {
+//     // this route requires auth, check if logged in
+//     // if not, redirect to login page.
+//     if (!auth.state.userProfile) {
+//       next({
+//         path: "/home",
+//         query: { redirect: to.fullPath },
+//       });
+//     } else {
+//       next();
+//     }
+//   } else {
+//     next(); // make sure to always call next()!
+//   }
+// });
 
 export default router;
